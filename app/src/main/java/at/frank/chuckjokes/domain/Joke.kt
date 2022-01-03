@@ -1,4 +1,4 @@
-package at.frank.chuckjokes.data
+package at.frank.chuckjokes.domain
 
 import com.squareup.moshi.Json
 

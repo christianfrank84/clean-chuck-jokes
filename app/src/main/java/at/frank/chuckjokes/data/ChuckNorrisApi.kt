@@ -1,6 +1,6 @@
-package at.frank.chuckjokes.domain
+package at.frank.chuckjokes.data
 
-import at.frank.chuckjokes.data.Joke
+import at.frank.chuckjokes.domain.Joke
 import io.reactivex.Observable
 import retrofit2.http.GET
 
