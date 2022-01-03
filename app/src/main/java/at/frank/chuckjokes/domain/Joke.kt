@@ -1,10 +1,10 @@
 package at.frank.chuckjokes.domain
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class Joke(
-    @Json(name = "icon_url") val iconUrl: String,
+    @SerializedName("icon_url") val iconUrl: String,
     val id: String,
     val value: String,
-    @Json(name = "created_at") val createdAt: String
+    @SerializedName( "created_at") val createdAt: String
 )
