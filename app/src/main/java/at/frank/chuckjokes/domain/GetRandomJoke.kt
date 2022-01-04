@@ -8,5 +8,9 @@ interface GetRandomJoke {
 }
 
 class GetRandomJokeImpl(private val repo: JokeRepository) : GetRandomJoke {
-    override fun invoke() = repo.getRandomJoke()
+    override fun invoke(): Observable<Joke> = repo.getRandomJoke().flatMap { joke ->
+        if (joke.value.isNotEmpty()) Observable.fromArray(joke) else Observable.error(
+            IllegalArgumentException("Joke has no value")
+        )
+    }
 }
