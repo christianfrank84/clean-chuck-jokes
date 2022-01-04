@@ -1,6 +1,7 @@
 package at.frank.chuckjokes
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import at.frank.chuckjokes.data.ChuckNorrisApi
 import at.frank.chuckjokes.data.JokeRepository
 import at.frank.chuckjokes.data.JokeRepositoryImpl
@@ -29,5 +30,11 @@ class JokeApp : Application(), JokeAppContract {
     override val observeOn: Scheduler = AndroidSchedulers.mainThread()
 
     override val getRandomJokeUseCase: GetRandomJoke = GetRandomJokeImpl(repository)
+
+    override fun onCreate() {
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        super.onCreate()
+    }
 
 }

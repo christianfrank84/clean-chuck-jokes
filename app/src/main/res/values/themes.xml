@@ -13,4 +13,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="JokeCard" parent="Base.CardView">
+        <item name="backgroundColor">@color/teal_200</item>
+    </style>
+
+    <style name="JokeCardText" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

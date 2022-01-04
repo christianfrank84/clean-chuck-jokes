@@ -14,6 +14,11 @@ class JokeViewModel(
 
     val jokeLiveData = MutableLiveData<JokeViewState>()
 
+    fun loadInitialJoke() {
+        if (jokeLiveData.value == null || jokeLiveData.value !is JokeViewState.Loaded)
+            loadRandomJoke()
+    }
+
     fun loadRandomJoke() {
         jokeLiveData.postValue(JokeViewState.Loading)
         app.getRandomJokeUseCase.invoke()
@@ -21,7 +26,13 @@ class JokeViewModel(
             .observeOn(app.observeOn)
             .subscribe(
                 { onNext -> jokeLiveData.postValue(JokeViewState.Loaded(onNext)) },
-                { onError ->jokeLiveData.postValue(JokeViewState.Error(onError.message?:"Error")) })
+                { onError ->
+                    jokeLiveData.postValue(
+                        JokeViewState.Error(
+                            onError.message ?: "Error"
+                        )
+                    )
+                })
             .let { compositeDisposable.add(it) }
     }
 
@@ -32,7 +43,7 @@ class JokeViewModel(
 }
 
 sealed class JokeViewState {
-    class Loaded(val joke: Joke): JokeViewState()
-    object Loading: JokeViewState()
-    class Error(val message: String):JokeViewState()
+    class Loaded(val joke: Joke) : JokeViewState()
+    object Loading : JokeViewState()
+    class Error(val message: String) : JokeViewState()
 }

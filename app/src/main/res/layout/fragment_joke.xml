@@ -4,7 +4,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/jokeCard"
@@ -14,28 +15,33 @@
             app:layout_constraintBottom_toTopOf="@id/newJokeButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="15dp"
+            style="@style/JokeCard">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/jokeText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
+                android:layout_margin="24dp"
                 app:autoSizeTextType="uniform"
+                style="@style/Theme.ChuckJokes"
                 tools:text="Hello World, I'll tell you a good joke" />
 
         </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/newJokeButton"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/hit_me_again"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jokeCard" />
+            app:layout_constraintTop_toBottomOf="@id/jokeCard"
+            style="@style/Widget.MaterialComponents.TextView"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

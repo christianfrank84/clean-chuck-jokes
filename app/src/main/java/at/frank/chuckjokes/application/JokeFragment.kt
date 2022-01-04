@@ -44,6 +44,8 @@ class JokeFragment : Fragment() {
                     is JokeViewState.Error -> showError(view, state.message)
                 }
             })
+
+            view.newJokeButton.setOnClickListener { viewModel.loadRandomJoke() }
         }
 
         return view.root
@@ -62,7 +64,9 @@ class JokeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.loadRandomJoke()
+        viewModel.loadInitialJoke()
+
+
         super.onViewCreated(view, savedInstanceState)
     }
 }
