@@ -32,7 +32,6 @@ class JokeApp : Application(), JokeAppContract {
     override val getRandomJokeUseCase: GetRandomJoke = GetRandomJokeImpl(repository)
 
     override fun onCreate() {
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         super.onCreate()
     }
