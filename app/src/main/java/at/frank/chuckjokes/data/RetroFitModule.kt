@@ -1,4 +1,4 @@
-package at.frank.chuckjokes
+package at.frank.chuckjokes.data
 
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

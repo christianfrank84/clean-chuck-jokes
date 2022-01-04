@@ -1,6 +1,5 @@
 package at.frank.chuckjokes.data
 
-import at.frank.chuckjokes.RetroFitModule
 import at.frank.chuckjokes.domain.Joke
 import com.google.gson.Gson
 import okhttp3.mockwebserver.MockResponse

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import at.frank.chuckjokes.data.ChuckNorrisApi
 import at.frank.chuckjokes.data.JokeRepository
 import at.frank.chuckjokes.data.JokeRepositoryImpl
+import at.frank.chuckjokes.data.RetroFitModule
 import at.frank.chuckjokes.domain.GetRandomJoke
 import at.frank.chuckjokes.domain.GetRandomJokeImpl
 import io.reactivex.Scheduler
