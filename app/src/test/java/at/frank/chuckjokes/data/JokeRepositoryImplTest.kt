@@ -1,5 +1,8 @@
 package at.frank.chuckjokes.data
 
+import at.frank.chuckjokes.data.remote.ChuckNorrisApi
+import at.frank.chuckjokes.data.remote.JokeWebEntity
+import at.frank.chuckjokes.data.remote.RetroFitModule
 import at.frank.chuckjokes.domain.Joke
 import com.google.gson.Gson
 import okhttp3.mockwebserver.MockResponse
@@ -26,12 +29,14 @@ class JokeRepositoryImplTest {
     fun `should return Joke if Response is a Json and has the correct keys`() {
         val jokeRepositoryImpl = JokeRepositoryImpl(api)
 
-        val joke = Joke("http://some.url.at/", "someId", "some Joke", "01012000")
-        val jokeJson = Gson().toJson(joke, Joke::class.java)
+        val jokeWebEntity = JokeWebEntity("http://some.url.at/", "someId", "some Joke", "01012000")
+        val jokeJson = Gson().toJson(jokeWebEntity, JokeWebEntity::class.java)
+
+        val expectedJokeDomainEntity = Joke(iconUrl = jokeWebEntity.iconUrl, id = jokeWebEntity.id, createdAt = jokeWebEntity.createdAt, value = jokeWebEntity.value )
 
         jokeServer.enqueue(MockResponse().setResponseCode(200).setBody(jokeJson))
 
-        jokeRepositoryImpl.getRandomJoke().test().assertComplete().assertValue(joke).dispose()
+        jokeRepositoryImpl.getRandomJoke().test().assertComplete().assertValue(expectedJokeDomainEntity).dispose()
     }
 
     @Test
