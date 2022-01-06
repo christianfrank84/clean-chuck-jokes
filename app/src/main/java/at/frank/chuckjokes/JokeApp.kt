@@ -10,8 +10,8 @@ import at.frank.chuckjokes.data.remote.ChuckNorrisApi
 import at.frank.chuckjokes.data.remote.RetroFitModule
 import at.frank.chuckjokes.domain.BookmarkJokeUseCase
 import at.frank.chuckjokes.domain.BookmarkJokeUseCaseImpl
-import at.frank.chuckjokes.domain.GetRandomJoke
-import at.frank.chuckjokes.domain.GetRandomJokeImpl
+import at.frank.chuckjokes.domain.GetRandomJokeUseCase
+import at.frank.chuckjokes.domain.GetRandomJokeUseCaseImpl
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -34,7 +34,7 @@ class JokeApp : Application(), JokeAppContract {
     override val subscribeOn: Scheduler = Schedulers.io()
     override val observeOn: Scheduler = AndroidSchedulers.mainThread()
 
-    override val getRandomJokeUseCase: GetRandomJoke by lazy { GetRandomJokeImpl(repository) }
+    override val getRandomJokeUseCase: GetRandomJokeUseCase by lazy { GetRandomJokeUseCaseImpl(repository) }
     override val bookmarkJokeUseCase: BookmarkJokeUseCase by lazy {
         BookmarkJokeUseCaseImpl(
             repository

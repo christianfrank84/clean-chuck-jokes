@@ -5,12 +5,12 @@ import io.reactivex.Observable
 import org.junit.Test
 import java.lang.IllegalArgumentException
 
-class GetRandomJokeImplTest
+class GetRandomJokeUseCaseImplTest
 {
     @Test
     fun shouldReturnObservableJokeFromRepository() {
         val expectedJoke = Joke("", "", "Joke", "")
-        val useCase = GetRandomJokeImpl(object : AbsMockRepo() {
+        val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
             override fun getRandomJoke(): Observable<Joke> {
                 return Observable.fromArray(expectedJoke)
             }
@@ -21,7 +21,7 @@ class GetRandomJokeImplTest
 
     @Test
     fun shouldReturnObservableErrorFromRepository() {
-        val useCase = GetRandomJokeImpl(object : AbsMockRepo() {
+        val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
             override fun getRandomJoke(): Observable<Joke> {
                 return Observable.error(Throwable())
             }
@@ -32,7 +32,7 @@ class GetRandomJokeImplTest
 
     @Test
     fun shouldReturnObservableErrorIfJokeHasNoValues() {
-        val useCase = GetRandomJokeImpl(object : AbsMockRepo() {
+        val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
             override fun getRandomJoke(): Observable<Joke> {
                 return Observable.fromArray(Joke())
             }
