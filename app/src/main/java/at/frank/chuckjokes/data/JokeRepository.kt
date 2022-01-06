@@ -16,9 +16,12 @@ interface JokeRepository {
     fun getBookmarkedJokes(): Single<List<Joke>>
 
     fun bookmarkJoke(joke: Joke): Completable
+
+    fun removeBookmarkedJoke(joke: Joke): Completable
 }
 
-class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: JokeDao) : JokeRepository {
+class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: JokeDao) :
+    JokeRepository {
     override fun getRandomJoke(): Observable<Joke> =
         api.getRandomChuckNorrisJoke().map(JokeWebToDomainMapperFunction())
 
@@ -29,6 +32,10 @@ class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: J
 
     override fun bookmarkJoke(joke: Joke) =
         jokeDao.bookmarkJoke(JokeDomainToDbMapperFunction().apply(joke))
+
+    override fun removeBookmarkedJoke(joke: Joke) =
+        jokeDao.removeBookmarkedJoke(JokeDomainToDbMapperFunction().apply(joke))
+
 
 }
 
