@@ -4,34 +4,51 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/jokeCard"
+            style="@style/JokeCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="16dp"
+            app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@id/newJokeButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="15dp"
-            style="@style/JokeCard">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/jokeText"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="24dp"
-                app:autoSizeTextType="uniform"
-                style="@style/Theme.ChuckJokes"
-                tools:text="Hello World, I'll tell you a good joke" />
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/jokeText"
+                    style="@style/Theme.ChuckJokes"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="24dp"
+                    android:layout_weight="10"
+                    app:autoSizeTextType="uniform"
+                    tools:text="Hello World, I'll tell you a good joke" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/bookmarkCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:text="bookmark" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/newJokeButton"
+            style="@style/Widget.MaterialComponents.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -39,9 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jokeCard"
-            style="@style/Widget.MaterialComponents.TextView"
-            />
+            app:layout_constraintTop_toBottomOf="@id/jokeCard" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,11 +12,8 @@ import io.reactivex.functions.Function
 
 interface JokeRepository {
     fun getRandomJoke(): Observable<Joke>
-
     fun getBookmarkedJokes(): Single<List<Joke>>
-
     fun bookmarkJoke(joke: Joke): Completable
-
     fun removeBookmarkedJoke(joke: Joke): Completable
 }
 

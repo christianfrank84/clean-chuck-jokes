@@ -14,6 +14,8 @@ class JokeViewModel(
 
     val jokeLiveData = MutableLiveData<JokeViewState>()
 
+    val toastLiveData = MutableLiveData<String>()
+
     fun loadInitialJoke() {
         if (jokeLiveData.value == null || jokeLiveData.value !is JokeViewState.Loaded)
             loadRandomJoke()
@@ -39,6 +41,23 @@ class JokeViewModel(
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()
+    }
+
+    fun addDisplayedJokeToBookmarks() {
+        val value = jokeLiveData.value
+        if (value != null && value is JokeViewState.Loaded) {
+            app.bookmarkJokeUseCase.invoke(value.joke).subscribeOn(app.subscribeOn)
+                .observeOn(app.observeOn).subscribe {
+                toastLiveData.postValue("Joke added to bookmarks!")
+                jokeLiveData.postValue(JokeViewState.Loaded(value.joke.apply {
+                    isBookmarked = true
+                }))
+            }.let { compositeDisposable.add(it) }
+        }
+    }
+
+    fun removeDisplayedJokeFromBookmarks() {
+        TODO("Not yet implemented")
     }
 }
 
