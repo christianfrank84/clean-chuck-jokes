@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "jokes")
-data class JokeDBEntity(
+data class JokeDBE(
     @PrimaryKey val id: String = "",
     val iconUrl: String = "",
     val value: String = "",

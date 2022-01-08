@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ChuckNorrisApi {
     @GET("jokes/random")
-    fun getRandomChuckNorrisJoke(): Observable<JokeWebEntity>
+    fun getRandomChuckNorrisJoke(): Observable<JokeDTO>
 }

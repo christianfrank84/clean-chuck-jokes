@@ -25,8 +25,8 @@ class ChuckNorrisApiTest {
     fun `should return Joke if Response is a Json and has the correct keys`() {
 
 
-        val jokeWebEntity = JokeWebEntity("http://some.url.at/", "someId", "some Joke", "01012000")
-        val jokeJson = Gson().toJson(jokeWebEntity, JokeWebEntity::class.java)
+        val jokeWebEntity = JokeDTO("http://some.url.at/", "someId", "some Joke", "01012000")
+        val jokeJson = Gson().toJson(jokeWebEntity, JokeDTO::class.java)
 
         jokeServer.enqueue(MockResponse().setResponseCode(200).setBody(jokeJson))
 
@@ -45,7 +45,7 @@ class ChuckNorrisApiTest {
     fun `should return empty Joke if json is empty`() {
         jokeServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
 
-        api.getRandomChuckNorrisJoke().test().assertValue(JokeWebEntity()).dispose()
+        api.getRandomChuckNorrisJoke().test().assertValue(JokeDTO()).dispose()
     }
 
     @After

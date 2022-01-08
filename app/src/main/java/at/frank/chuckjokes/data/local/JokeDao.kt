@@ -10,11 +10,11 @@ import io.reactivex.Single
 @Dao
 interface JokeDao {
     @Query("SELECT * FROM jokes")
-    fun getBookmarkedJokes(): Single<List<JokeDBEntity>>
+    fun getBookmarkedJokes(): Single<List<JokeDBE>>
 
     @Insert
-    fun bookmarkJoke(joke: JokeDBEntity): Completable
+    fun bookmarkJoke(joke: JokeDBE): Completable
 
     @Delete
-    fun removeBookmarkedJoke(joke: JokeDBEntity): Completable
+    fun removeBookmarkedJoke(joke: JokeDBE): Completable
 }

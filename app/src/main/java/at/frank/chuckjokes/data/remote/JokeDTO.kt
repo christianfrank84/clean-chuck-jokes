@@ -2,7 +2,7 @@ package at.frank.chuckjokes.data.remote
 
 import com.google.gson.annotations.SerializedName
 
-data class JokeWebEntity(
+data class JokeDTO(
     val id: String = "",
     @SerializedName("icon_url") val iconUrl: String = "",
     val value: String = "",

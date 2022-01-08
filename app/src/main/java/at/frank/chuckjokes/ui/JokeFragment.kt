@@ -66,7 +66,7 @@ class JokeFragment : Fragment() {
 
     private fun showJoke(view: FragmentJokeBinding, joke: Joke) {
         view.jokeText.text = joke.value
-        view.bookmarkCheckBox.isChecked = joke.isBookmarked
+        view.bookmarkCheckBox.isChecked = joke.bookmarked
     }
 
     private fun showLoadingIndicator(view: FragmentJokeBinding) {

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import at.frank.chuckjokes.data.local.JokeDBEntity
+import at.frank.chuckjokes.data.local.JokeDBE
 import at.frank.chuckjokes.data.local.JokeDao
 import at.frank.chuckjokes.data.local.JokeDatabase
 import org.junit.After
@@ -41,7 +41,7 @@ class ExampleInstrumentedTest {
     @Test
     @Throws(Exception::class)
     fun writeUserAndReadInList() {
-        val joke = JokeDBEntity("1234", "", "funny joke", "")
+        val joke = JokeDBE("1234", "", "funny joke", "")
         userDao.bookmarkJoke(joke).test()
         userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke) }
             .dispose()

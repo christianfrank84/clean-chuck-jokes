@@ -49,9 +49,7 @@ class JokeViewModel(
             app.bookmarkJokeUseCase.invoke(value.joke).subscribeOn(app.subscribeOn)
                 .observeOn(app.observeOn).subscribe {
                 toastLiveData.postValue("Joke added to bookmarks!")
-                jokeLiveData.postValue(JokeViewState.Loaded(value.joke.apply {
-                    isBookmarked = true
-                }))
+                jokeLiveData.postValue(JokeViewState.Loaded(value.joke))
             }.let { compositeDisposable.add(it) }
         }
     }
