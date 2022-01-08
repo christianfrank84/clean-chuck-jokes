@@ -3,8 +3,8 @@ package at.frank.chuckjokes
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
-import at.frank.chuckjokes.data.JokeRepository
-import at.frank.chuckjokes.data.JokeRepositoryImpl
+import at.frank.chuckjokes.domain.JokeRepository
+import at.frank.chuckjokes.domain.JokeRepositoryImpl
 import at.frank.chuckjokes.data.local.JokeDatabase
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi
 import at.frank.chuckjokes.data.remote.RetroFitModule
@@ -30,7 +30,7 @@ class JokeApp : Application(), JokeAppContract {
 
     private val chuckNorrisApi: ChuckNorrisApi = retrofit.create(ChuckNorrisApi::class.java)
 
-    private val repository: JokeRepository by lazy { JokeRepositoryImpl(chuckNorrisApi, db.jokeDao())}
+    private val repository: JokeRepository by lazy { JokeRepositoryImpl(chuckNorrisApi, db.jokeDao()) }
     override val subscribeOn: Scheduler = Schedulers.io()
     override val observeOn: Scheduler = AndroidSchedulers.mainThread()
 

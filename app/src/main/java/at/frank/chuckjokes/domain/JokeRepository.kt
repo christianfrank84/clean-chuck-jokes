@@ -1,10 +1,9 @@
-package at.frank.chuckjokes.data
+package at.frank.chuckjokes.domain
 
 import at.frank.chuckjokes.data.local.JokeDBEntity
 import at.frank.chuckjokes.data.local.JokeDao
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi
 import at.frank.chuckjokes.data.remote.JokeWebEntity
-import at.frank.chuckjokes.domain.Joke
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

@@ -1,6 +1,6 @@
 package at.frank.chuckjokes
 
-import at.frank.chuckjokes.data.JokeRepository
+import at.frank.chuckjokes.domain.JokeRepository
 import at.frank.chuckjokes.domain.Joke
 import io.reactivex.Completable
 import io.reactivex.Observable
