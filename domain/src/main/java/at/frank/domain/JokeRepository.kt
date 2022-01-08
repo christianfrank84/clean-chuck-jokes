@@ -1,5 +1,7 @@
 package at.frank.domain
 
+import at.frank.data.local.JokeDao
+import at.frank.data.remote.ChuckNorrisApi
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

@@ -1,5 +1,8 @@
 package at.frank.domain
 
+import at.frank.data.local.JokeDBE
+import at.frank.data.remote.JokeDTO
+
 data class Joke(
     val id: String = "",
     val iconUrl: String = "",

@@ -1,8 +1,8 @@
-package at.frank.chuckjokes.presentation
+package at.frank.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import at.frank.presentation.viewmodel.JokeViewModel
+import at.frank.presentation.JokeAppContract
 
 class JokeViewModelFactory(private val app: JokeAppContract): ViewModelProvider.NewInstanceFactory()
 {
