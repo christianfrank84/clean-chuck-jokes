@@ -1,4 +1,4 @@
-package at.frank.chuckjokes.ui
+package at.frank.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import at.frank.chuckjokes.databinding.FragmentJokeBinding
-import at.frank.chuckjokes.domain.Joke
-import at.frank.chuckjokes.getJokeApp
-import at.frank.chuckjokes.presentation.JokeViewModel
 import at.frank.chuckjokes.presentation.JokeViewModelFactory
-import at.frank.chuckjokes.presentation.JokeViewState
+import at.frank.domain.Joke
+import at.frank.presentation.databinding.FragmentJokeBinding
+import at.frank.presentation.getJokeApp
+import at.frank.presentation.viewmodel.JokeViewModel
+import at.frank.presentation.viewmodel.JokeViewState
 
 class JokeFragment : Fragment() {
     lateinit var viewModel: JokeViewModel

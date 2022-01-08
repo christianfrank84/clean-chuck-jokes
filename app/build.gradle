@@ -55,6 +55,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
 
+
+
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+    implementation project(path: ':presentation')
+
     implementation("androidx.room:room-runtime:2.4.0")
     annotationProcessor("androidx.room:room-compiler:2.4.0")
     // To use Kotlin annotation processing tool (kapt)

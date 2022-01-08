@@ -1,7 +1,6 @@
 package at.frank.chuckjokes.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import at.frank.chuckjokes.JokeAppContract
 import at.frank.chuckjokes.domain.BookmarkJokeUseCase
 import at.frank.chuckjokes.domain.GetRandomJokeUseCase
 import at.frank.chuckjokes.domain.Joke

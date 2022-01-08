@@ -1,9 +1,9 @@
-package at.frank.chuckjokes.presentation
+package at.frank.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import at.frank.chuckjokes.JokeAppContract
-import at.frank.chuckjokes.domain.Joke
+import at.frank.domain.Joke
+import at.frank.presentation.JokeAppContract
 import io.reactivex.disposables.CompositeDisposable
 
 class JokeViewModel(

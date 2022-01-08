@@ -3,15 +3,12 @@ package at.frank.chuckjokes
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
-import at.frank.chuckjokes.domain.JokeRepository
-import at.frank.chuckjokes.domain.JokeRepositoryImpl
-import at.frank.chuckjokes.data.local.JokeDatabase
-import at.frank.chuckjokes.data.remote.ChuckNorrisApi
-import at.frank.chuckjokes.data.remote.RetroFitModule
-import at.frank.chuckjokes.domain.BookmarkJokeUseCase
-import at.frank.chuckjokes.domain.BookmarkJokeUseCaseImpl
-import at.frank.chuckjokes.domain.GetRandomJokeUseCase
-import at.frank.chuckjokes.domain.GetRandomJokeUseCaseImpl
+
+import at.frank.data.local.JokeDatabase
+import at.frank.data.remote.ChuckNorrisApi
+import at.frank.data.remote.RetroFitModule
+import at.frank.domain.*
+import at.frank.presentation.JokeAppContract
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
