@@ -1,6 +1,6 @@
-package at.frank.chuckjokes.domain
+package at.frank.domain
 
-import at.frank.chuckjokes.AbsMockRepo
+
 import io.reactivex.Observable
 import org.junit.Test
 import java.lang.IllegalArgumentException

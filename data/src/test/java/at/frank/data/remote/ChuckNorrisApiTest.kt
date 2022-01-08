@@ -1,4 +1,4 @@
-package at.frank.chuckjokes.data.remote
+package at.frank.data.remote
 
 import com.google.gson.Gson
 import okhttp3.mockwebserver.MockResponse

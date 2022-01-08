@@ -1,9 +1,11 @@
-package at.frank.chuckjokes.presentation
+package at.frank.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import at.frank.chuckjokes.domain.BookmarkJokeUseCase
-import at.frank.chuckjokes.domain.GetRandomJokeUseCase
-import at.frank.chuckjokes.domain.Joke
+import at.frank.domain.BookmarkJokeUseCase
+import at.frank.domain.GetRandomJokeUseCase
+import at.frank.domain.Joke
+import at.frank.presentation.viewmodel.JokeViewModel
+import at.frank.presentation.viewmodel.JokeViewState
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
