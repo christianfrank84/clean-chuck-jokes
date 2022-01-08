@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="1.7">
       <module name="ChuckJokes.app" target="11" />
       <module name="ChuckJokes.data" target="11" />
+      <module name="ChuckJokes.presentation" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
