@@ -1,4 +1,4 @@
-package at.frank.presentation.ui
+package at.frank.presentation.jokes
 
 import android.os.Bundle
 import android.view.LayoutInflater
