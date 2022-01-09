@@ -7,7 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface JokeRepository {
-    fun getRandomJoke(): Observable<Joke>
+    fun getRandomJoke(): Single<Joke>
     fun getBookmarkedJokes(): Single<List<Joke>>
     fun bookmarkJoke(joke: Joke): Completable
     fun removeBookmarkedJoke(joke: Joke): Completable
@@ -15,7 +15,7 @@ interface JokeRepository {
 
 class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: JokeDao) :
     JokeRepository {
-    override fun getRandomJoke(): Observable<Joke> =
+    override fun getRandomJoke(): Single<Joke> =
         api.getRandomChuckNorrisJoke().map { Joke.mapFromDTO(it) }
 
     override fun getBookmarkedJokes(): Single<List<Joke>> =

@@ -1,14 +1,14 @@
 package at.frank.domain
 
-import io.reactivex.Observable
+import io.reactivex.Single
 
 interface GetRandomJokeUseCase {
-    fun invoke(): Observable<Joke>
+    fun invoke(): Single<Joke>
 }
 
 class GetRandomJokeUseCaseImpl(private val repo: JokeRepository) : GetRandomJokeUseCase {
-    override fun invoke(): Observable<Joke> = repo.getRandomJoke().flatMap { joke ->
-        if (joke.value.isNotEmpty()) Observable.fromArray(joke) else Observable.error(
+    override fun invoke(): Single<Joke> = repo.getRandomJoke().flatMap { joke ->
+        if (joke.value.isNotEmpty()) Single.just(joke) else Single.error(
             IllegalArgumentException("Joke has no value")
         )
     }

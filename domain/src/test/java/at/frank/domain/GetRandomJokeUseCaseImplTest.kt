@@ -1,18 +1,16 @@
 package at.frank.domain
 
 
-import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Test
-import java.lang.IllegalArgumentException
 
-class GetRandomJokeUseCaseImplTest
-{
+class GetRandomJokeUseCaseImplTest {
     @Test
     fun shouldReturnObservableJokeFromRepository() {
         val expectedJoke = Joke("", "", "Joke", "")
         val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
-            override fun getRandomJoke(): Observable<Joke> {
-                return Observable.fromArray(expectedJoke)
+            override fun getRandomJoke(): Single<Joke> {
+                return Single.just(expectedJoke)
             }
         })
 
@@ -22,8 +20,8 @@ class GetRandomJokeUseCaseImplTest
     @Test
     fun shouldReturnObservableErrorFromRepository() {
         val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
-            override fun getRandomJoke(): Observable<Joke> {
-                return Observable.error(Throwable())
+            override fun getRandomJoke(): Single<Joke> {
+                return Single.error(Throwable())
             }
         })
 
@@ -33,11 +31,12 @@ class GetRandomJokeUseCaseImplTest
     @Test
     fun shouldReturnObservableErrorIfJokeHasNoValues() {
         val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
-            override fun getRandomJoke(): Observable<Joke> {
-                return Observable.fromArray(Joke())
+            override fun getRandomJoke(): Single<Joke> {
+                return Single.just(Joke())
             }
         })
 
-        useCase.invoke().test().assertNotComplete().assertError(IllegalArgumentException::class.java).dispose()
+        useCase.invoke().test().assertNotComplete()
+            .assertError(IllegalArgumentException::class.java).dispose()
     }
 }
