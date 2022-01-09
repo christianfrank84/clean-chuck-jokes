@@ -3,18 +3,14 @@ package at.frank.data
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.frank.data.local.JokeDBE
 import at.frank.data.local.JokeDao
 import at.frank.data.local.JokeDatabase
 import org.junit.After
-
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import org.junit.Before
 import java.io.IOException
 
 /**
@@ -44,10 +40,42 @@ class JokeDatabaseReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeUserAndReadInList() {
+    fun writeJokeToDbAndFetchInList() {
         val joke = JokeDBE("1234", "", "funny joke", "")
-        userDao.bookmarkJoke(joke).test()
+        userDao.bookmarkJoke(joke).test().assertComplete().dispose()
         userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke) }
             .dispose()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeJokeToDbAndSeeIfItExists() {
+        val joke = JokeDBE("1234", "", "funny joke", "")
+        userDao.bookmarkJoke(joke).test().assertComplete().dispose()
+        userDao.isBookmarked(joke.id).test().assertComplete().assertValue(true).dispose()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun shouldReturnFalseIfAJokeDoesntExistInDb() {
+        val joke = JokeDBE("1234", "", "funny joke", "")
+        userDao.isBookmarked(joke.id).test().assertComplete().assertValue(false).dispose()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeJokeToDbAndDeleteIt() {
+        val joke = JokeDBE("1234", "", "funny joke", "")
+        userDao.bookmarkJoke(joke).test().assertComplete().dispose()
+        userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke) }
+            .dispose()
+
+        userDao.removeBookmarkedJoke(joke).test().assertComplete().dispose()
+        userDao.getBookmarkedJokes()
+            .test()
+            .assertComplete()
+            .assertValue {
+                it.isEmpty()
+            }.dispose()
     }
 }

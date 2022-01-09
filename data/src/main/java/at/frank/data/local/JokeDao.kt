@@ -12,6 +12,9 @@ interface JokeDao {
     @Query("SELECT * FROM jokes")
     fun getBookmarkedJokes(): Single<List<JokeDBE>>
 
+    @Query("SELECT EXISTS (SELECT 1 FROM jokes WHERE id = :id)")
+    fun isBookmarked(id: String): Single<Boolean>
+
     @Insert
     fun bookmarkJoke(joke: JokeDBE): Completable
 
