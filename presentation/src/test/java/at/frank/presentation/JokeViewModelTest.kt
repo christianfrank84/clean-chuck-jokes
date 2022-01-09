@@ -48,6 +48,6 @@ class JokeViewModelTest {
 
     @After
     fun teardown() {
-println("test")
+
     }
 }
