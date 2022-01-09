@@ -23,8 +23,6 @@ class ChuckNorrisApiTest {
 
     @Test
     fun `should return Joke if Response is a Json and has the correct keys`() {
-
-
         val jokeWebEntity = JokeDTO("http://some.url.at/", "someId", "some Joke", "01012000")
         val jokeJson = Gson().toJson(jokeWebEntity, JokeDTO::class.java)
 

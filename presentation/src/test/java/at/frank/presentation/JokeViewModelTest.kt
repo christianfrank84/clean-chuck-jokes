@@ -36,7 +36,7 @@ class JokeViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Test
-    fun `should contain Loaded state`() {
+    fun `should emit Loaded state if usecase emits a Joke`() {
         viewModel = JokeViewModel(mockedAppContract)
         viewModel.loadInitialJoke()
         assertTrue(viewModel.jokeLiveData.value is JokeViewState.Loaded)
