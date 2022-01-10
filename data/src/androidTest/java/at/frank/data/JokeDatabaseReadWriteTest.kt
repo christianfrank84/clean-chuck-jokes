@@ -1,6 +1,7 @@
 package at.frank.data
 
 import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -11,6 +12,7 @@ import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -25,12 +27,15 @@ class JokeDatabaseReadWriteTest {
     private lateinit var userDao: JokeDao
     private lateinit var db: JokeDatabase
 
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, JokeDatabase::class.java
-        ).build()
+        ).allowMainThreadQueries().build()
         userDao = db.jokeDao()
     }
 
@@ -45,7 +50,7 @@ class JokeDatabaseReadWriteTest {
     fun writeJokeToDbAndFetchInList() {
         val joke = JokeDBE("1234", "", "funny joke", "")
         userDao.bookmarkJoke(joke).test().assertComplete().dispose()
-        userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke) }
+        userDao.getBookmarkedJokes().test().assertValue { it.contains(joke) }
             .dispose()
     }
 
@@ -56,7 +61,7 @@ class JokeDatabaseReadWriteTest {
         userDao.bookmarkJoke(joke1).test().assertComplete().dispose()
         val joke2 = JokeDBE("1234", "", "updatedfunny joke", "")
         userDao.bookmarkJoke(joke2).test().assertComplete().dispose()
-        userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke2) }
+        userDao.getBookmarkedJokes().test().assertValue { it.contains(joke2) }
             .dispose()
     }
 
@@ -80,13 +85,12 @@ class JokeDatabaseReadWriteTest {
     fun writeJokeToDbAndDeleteIt() {
         val joke = JokeDBE("1234", "", "funny joke", "")
         userDao.bookmarkJoke(joke).test().assertComplete().dispose()
-        userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke) }
+        userDao.getBookmarkedJokes().test().assertValue { it.contains(joke) }
             .dispose()
 
         userDao.removeBookmarkedJoke(joke).test().assertComplete().dispose()
         userDao.getBookmarkedJokes()
             .test()
-            .assertComplete()
             .assertValue {
                 it.isEmpty()
             }.dispose()
