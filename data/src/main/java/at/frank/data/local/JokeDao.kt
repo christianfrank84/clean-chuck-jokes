@@ -14,7 +14,7 @@ interface JokeDao {
     fun getBookmarkedJokes(): Flowable<List<JokeDBE>>
 
     @Query("SELECT EXISTS (SELECT 1 FROM jokes WHERE id = :id)")
-    fun isBookmarked(id: String): Single<Boolean>
+    fun isBookmarked(id: String): Boolean
 
     @Insert
     fun bookmarkJoke(joke: JokeDBE): Completable

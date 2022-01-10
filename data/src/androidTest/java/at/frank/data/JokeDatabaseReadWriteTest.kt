@@ -8,6 +8,8 @@ import at.frank.data.local.JokeDBE
 import at.frank.data.local.JokeDao
 import at.frank.data.local.JokeDatabase
 import org.junit.After
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,14 +54,14 @@ class JokeDatabaseReadWriteTest {
     fun writeJokeToDbAndSeeIfItExists() {
         val joke = JokeDBE("1234", "", "funny joke", "")
         userDao.bookmarkJoke(joke).test().assertComplete().dispose()
-        userDao.isBookmarked(joke.id).test().assertComplete().assertValue(true).dispose()
+        assertTrue(userDao.isBookmarked(joke.id))
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldReturnFalseIfAJokeDoesntExistInDb() {
         val joke = JokeDBE("1234", "", "funny joke", "")
-        userDao.isBookmarked(joke.id).test().assertComplete().assertValue(false).dispose()
+        assertFalse(userDao.isBookmarked(joke.id))
     }
 
     @Test

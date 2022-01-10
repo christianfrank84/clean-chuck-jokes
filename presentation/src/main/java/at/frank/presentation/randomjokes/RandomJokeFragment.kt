@@ -29,7 +29,7 @@ class RandomJokeFragment : Fragment() {
             val viewModelFactory = JokeViewModelFactory(it.getJokeApp())
             viewModel = ViewModelProvider(this, viewModelFactory)[RandomJokeViewModel::class.java]
 
-            viewModel.jokeLiveData.observe(viewLifecycleOwner, { state ->
+            viewModel.viewState.observe(viewLifecycleOwner, { state ->
                 when (state) {
                     is RandomJokeViewState.Loading -> showLoadingIndicator(view)
                     is RandomJokeViewState.Loaded -> showJoke(view, state.joke)

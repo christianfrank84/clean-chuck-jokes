@@ -47,10 +47,10 @@ class RandomJokeViewModelTest {
     fun `should emit Loaded state if usecase emits a Joke`() {
         viewModel = RandomJokeViewModel(mockedAppContract)
         viewModel.loadInitialJoke()
-        assertTrue(viewModel.jokeLiveData.value is RandomJokeViewState.Loaded)
+        assertTrue(viewModel.viewState.value is RandomJokeViewState.Loaded)
         assertEquals(
             "this is a joke!",
-            (viewModel.jokeLiveData.value as RandomJokeViewState.Loaded).joke.value
+            (viewModel.viewState.value as RandomJokeViewState.Loaded).joke.value
         )
     }
 

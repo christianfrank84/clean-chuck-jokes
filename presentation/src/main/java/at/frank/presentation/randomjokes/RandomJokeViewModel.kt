@@ -11,27 +11,41 @@ class RandomJokeViewModel(
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-
-    val jokeLiveData = MutableLiveData<RandomJokeViewState>()
-
-    val toastLiveData = MutableLiveData<String>()
+    val viewState = MutableLiveData<RandomJokeViewState>()
 
     fun loadInitialJoke() {
-        if (currentlyDisplayedJoke() == null)
+        if (currentlyDisplayedJoke() == null) {
             loadRandomJoke()
+            observeBookmarks()
+        }
+    }
+
+    private fun observeBookmarks() {
+        app.getBookmarkedJokesUseCase
+            .invoke()
+            .subscribeOn(app.subscribeOn)
+            .observeOn(app.observeOn)
+            .subscribe(
+                { bookmarkedJokes ->
+                    currentlyDisplayedJoke()?.let { currentJoke ->
+                        bookmarkedJokes.find { item -> item.id == currentJoke.id }?.let {
+                            postJokeToViewState(it.apply { bookmarked = true })
+                        } ?: postJokeToViewState(currentJoke.apply { bookmarked = false })
+                    }
+                },
+                { })
+            .let { compositeDisposable.add(it) }
     }
 
     fun loadRandomJoke() {
-        jokeLiveData.postValue(RandomJokeViewState.Loading)
+        viewState.postValue(RandomJokeViewState.Loading)
         app.getRandomJokeUseCase.invoke()
             .subscribeOn(app.subscribeOn)
             .observeOn(app.observeOn)
             .subscribe(
-                { onNext ->
-                    jokeLiveData.postValue(RandomJokeViewState.Loaded(onNext))
-                },
+                { onNext -> postJokeToViewState(onNext) },
                 { onError ->
-                    jokeLiveData.postValue(
+                    viewState.postValue(
                         RandomJokeViewState.Error(
                             onError.message ?: "Error"
                         )
@@ -52,10 +66,7 @@ class RandomJokeViewModel(
                 .subscribeOn(app.subscribeOn)
                 .observeOn(app.observeOn)
                 .subscribe {
-                    toastLiveData.postValue("Joke added to bookmarks!")
-                    jokeLiveData.postValue(RandomJokeViewState.Loaded(joke.apply {
-                        bookmarked = true
-                    }))
+                    postJokeToViewState(joke.apply { bookmarked = true })
                 }.let { compositeDisposable.add(it) }
         }
     }
@@ -67,19 +78,20 @@ class RandomJokeViewModel(
                 .subscribeOn(app.subscribeOn)
                 .observeOn(app.observeOn)
                 .subscribe {
-                    toastLiveData.postValue("Joke removed from bookmarks!")
-                    jokeLiveData.postValue(RandomJokeViewState.Loaded(joke.apply {
-                        bookmarked = false
-                    }))
+                    postJokeToViewState(joke.apply { bookmarked = false })
                 }
         }
     }
 
     private fun currentlyDisplayedJoke(): Joke? {
-        val currentViewState = jokeLiveData.value
+        val currentViewState = viewState.value
         return if (currentViewState is RandomJokeViewState.Loaded)
             currentViewState.joke
         else null
+    }
+
+    private fun postJokeToViewState(joke: Joke) {
+        viewState.postValue(RandomJokeViewState.Loaded(joke))
     }
 }
 
