@@ -1,12 +1,10 @@
 package at.frank.presentation.randomjokes
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import at.frank.domain.BookmarkJokeUseCase
-import at.frank.domain.GetBookmarkedJokesUseCase
-import at.frank.domain.GetRandomJokeUseCase
-import at.frank.domain.Joke
+import at.frank.domain.*
 import at.frank.presentation.JokeAppContract
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -30,7 +28,12 @@ class RandomJokeViewModelTest {
         }
         override val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase =
             object : GetBookmarkedJokesUseCase {
-                override fun invoke(): Single<List<Joke>> = Single.just(emptyList())
+                override fun invoke(): Flowable<List<Joke>> = Flowable.just(emptyList())
+
+            }
+        override val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase =
+            object : RemoveJokeFromBookmarksUseCase {
+                override fun invoke(joke: Joke) = Completable.complete()
 
             }
     }

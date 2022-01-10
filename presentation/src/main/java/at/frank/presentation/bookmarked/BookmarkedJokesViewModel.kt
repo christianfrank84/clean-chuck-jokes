@@ -39,9 +39,7 @@ class BookmarkedJokesViewModel(
         super.onCleared()
     }
 
-    fun removeDisplayedJokeFromBookmarks() {
-        TODO("Not yet implemented")
-    }
+
 
     private fun currentlyDisplayedJokes(): List<Joke>? {
         val currentViewState = viewState.value

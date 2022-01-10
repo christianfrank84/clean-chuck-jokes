@@ -17,7 +17,7 @@ class RandomJokeViewModel(
     val toastLiveData = MutableLiveData<String>()
 
     fun loadInitialJoke() {
-        if(currentlyDisplayedJoke()==null)
+        if (currentlyDisplayedJoke() == null)
             loadRandomJoke()
     }
 
@@ -61,7 +61,18 @@ class RandomJokeViewModel(
     }
 
     fun removeDisplayedJokeFromBookmarks() {
-        TODO("Not yet implemented")
+        currentlyDisplayedJoke()?.let { joke ->
+            app.removeJokeFromBookmarksUseCase
+                .invoke(joke)
+                .subscribeOn(app.subscribeOn)
+                .observeOn(app.observeOn)
+                .subscribe {
+                    toastLiveData.postValue("Joke removed from bookmarks!")
+                    jokeLiveData.postValue(RandomJokeViewState.Loaded(joke.apply {
+                        bookmarked = false
+                    }))
+                }
+        }
     }
 
     private fun currentlyDisplayedJoke(): Joke? {

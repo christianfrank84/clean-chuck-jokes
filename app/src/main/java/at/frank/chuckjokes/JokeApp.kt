@@ -37,20 +37,18 @@ class JokeApp : Application(), JokeAppContract {
     override val observeOn: Scheduler = AndroidSchedulers.mainThread()
 
     override val getRandomJokeUseCase: GetRandomJokeUseCase by lazy {
-        GetRandomJoke(
-            repository
-        )
+        GetRandomJoke(repository)
     }
     override val bookmarkJokeUseCase: BookmarkJokeUseCase by lazy {
-        BookmarkJoke(
-            repository
-        )
+        BookmarkJoke(repository)
     }
 
     override val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase by lazy {
-        GetBookmarkedJokes(
-            repository
-        )
+        GetBookmarkedJokes(repository)
+    }
+
+    override val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase by lazy {
+        RemoveJokeFromBookmarks(repository)
     }
 
     override fun onCreate() {
