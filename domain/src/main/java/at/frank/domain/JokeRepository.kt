@@ -3,12 +3,13 @@ package at.frank.domain
 import at.frank.data.local.JokeDao
 import at.frank.data.remote.ChuckNorrisApi
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 interface JokeRepository {
     fun getRandomJoke(): Single<Joke>
-    fun getBookmarkedJokes(): Single<List<Joke>>
+    fun getBookmarkedJokes(): Flowable<List<Joke>>
     fun bookmarkJoke(joke: Joke): Completable
     fun removeBookmarkedJoke(joke: Joke): Completable
 }
@@ -18,7 +19,7 @@ class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: J
     override fun getRandomJoke(): Single<Joke> =
         api.getRandomChuckNorrisJoke().map { Joke.mapFromDTO(it) }
 
-    override fun getBookmarkedJokes(): Single<List<Joke>> =
+    override fun getBookmarkedJokes(): Flowable<List<Joke>> =
         jokeDao.getBookmarkedJokes().map { list ->
             list.map { jokeDBE -> Joke.mapFromDBE(jokeDBE) }
         }

@@ -12,6 +12,7 @@ class BookmarkedJokesRecyclerViewAdapter : RecyclerView.Adapter<BookmarkedJokeVi
 
     fun setData(jokes: List<Joke>) {
         jokeList = jokes
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkedJokeViewHolder {

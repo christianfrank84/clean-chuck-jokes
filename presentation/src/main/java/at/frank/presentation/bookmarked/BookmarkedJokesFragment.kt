@@ -45,7 +45,7 @@ class BookmarkedJokesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.loadInitialJoke()
+        viewModel.loadBookmarkedJokes()
         super.onViewCreated(view, savedInstanceState)
     }
 

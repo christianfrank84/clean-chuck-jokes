@@ -27,13 +27,28 @@ class JokeApp : Application(), JokeAppContract {
 
     private val chuckNorrisApi: ChuckNorrisApi = retrofit.create(ChuckNorrisApi::class.java)
 
-    private val repository: JokeRepository by lazy { JokeRepositoryImpl(chuckNorrisApi, db.jokeDao()) }
+    private val repository: JokeRepository by lazy {
+        JokeRepositoryImpl(
+            chuckNorrisApi,
+            db.jokeDao()
+        )
+    }
     override val subscribeOn: Scheduler = Schedulers.io()
     override val observeOn: Scheduler = AndroidSchedulers.mainThread()
 
-    override val getRandomJokeUseCase: GetRandomJokeUseCase by lazy { GetRandomJokeUseCaseImpl(repository) }
+    override val getRandomJokeUseCase: GetRandomJokeUseCase by lazy {
+        GetRandomJokeUseCaseImpl(
+            repository
+        )
+    }
     override val bookmarkJokeUseCase: BookmarkJokeUseCase by lazy {
         BookmarkJokeUseCaseImpl(
+            repository
+        )
+    }
+
+    override val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase by lazy {
+        GetBookmarkedJokes(
             repository
         )
     }

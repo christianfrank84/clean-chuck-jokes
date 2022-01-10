@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+        bottomNavigationView.selectedItemId = R.id.navigationRandom
     }
 
     private fun showRandomJokeFragment(): Boolean {

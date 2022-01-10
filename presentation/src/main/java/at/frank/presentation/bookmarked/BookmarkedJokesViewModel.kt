@@ -15,28 +15,23 @@ class BookmarkedJokesViewModel(
     val viewState = MutableLiveData<BookmarkedJokesViewState>()
 
 
-    fun loadInitialJoke() {
-        if (currentlyDisplayedJokes() == null)
-            loadBookmarkedJokes()
-    }
-
     fun loadBookmarkedJokes() {
         viewState.postValue(BookmarkedJokesViewState.Loading)
-//        app..invoke()
-//            .subscribeOn(app.subscribeOn)
-//            .observeOn(app.observeOn)
-//            .subscribe(
-//                { onNext ->
-//                    jokeLiveData.postValue(RandomJokeViewState.Loaded(onNext))
-//                },
-//                { onError ->
-//                    jokeLiveData.postValue(
-//                        RandomJokeViewState.Error(
-//                            onError.message ?: "Error"
-//                        )
-//                    )
-//                })
-//            .let { compositeDisposable.add(it) }
+        app.getBookmarkedJokesUseCase.invoke()
+            .subscribeOn(app.subscribeOn)
+            .observeOn(app.observeOn)
+            .subscribe(
+                { onNext ->
+                    viewState.postValue(BookmarkedJokesViewState.Loaded(onNext))
+                },
+                { onError ->
+                    viewState.postValue(
+                        BookmarkedJokesViewState.Error(
+                            onError.message ?: "Error"
+                        )
+                    )
+                })
+            .let { compositeDisposable.add(it) }
     }
 
     override fun onCleared() {
