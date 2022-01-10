@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import at.frank.domain.Joke
 import at.frank.presentation.R
 
-class BookmarkedJokesRecyclerViewAdapter : RecyclerView.Adapter<BookmarkedJokeViewHolder>() {
+class BookmarkedJokesRecyclerViewAdapter(val deleteListener: DeleteJokeFromBookmarksListener) : RecyclerView.Adapter<BookmarkedJokeViewHolder>() {
 
     private var jokeList: List<Joke> = emptyList()
+
 
     fun setData(jokes: List<Joke>) {
         jokeList = jokes
@@ -16,7 +17,7 @@ class BookmarkedJokesRecyclerViewAdapter : RecyclerView.Adapter<BookmarkedJokeVi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkedJokeViewHolder {
-        return BookmarkedJokeViewHolder(
+        return BookmarkedJokeViewHolder(deleteListener,
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_bookmarked_joke, parent, false)
         )

@@ -39,13 +39,11 @@ class BookmarkedJokesViewModel(
         super.onCleared()
     }
 
+    fun removeJokeFromBookmarks(joke: Joke) {
+        app.removeJokeFromBookmarksUseCase.invoke(joke).subscribeOn(app.subscribeOn)
+            .observeOn(app.observeOn).subscribe {
 
-
-    private fun currentlyDisplayedJokes(): List<Joke>? {
-        val currentViewState = viewState.value
-        return if (currentViewState is BookmarkedJokesViewState.Loaded)
-            currentViewState.jokes
-        else null
+        }.let { compositeDisposable.add(it) }
     }
 }
 

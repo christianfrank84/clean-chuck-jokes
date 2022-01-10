@@ -9,14 +9,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.frank.domain.Joke
 import at.frank.presentation.bookmarked.recyclerview.BookmarkedJokesRecyclerViewAdapter
+import at.frank.presentation.bookmarked.recyclerview.DeleteJokeFromBookmarksListener
 import at.frank.presentation.databinding.FragmentBookmarkedJokesBinding
 import at.frank.presentation.getJokeApp
 import at.frank.presentation.viewmodel.JokeViewModelFactory
 
-class BookmarkedJokesFragment : Fragment() {
+class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
     lateinit var viewModel: BookmarkedJokesViewModel
 
-    private val adapter = BookmarkedJokesRecyclerViewAdapter()
+    private val adapter = BookmarkedJokesRecyclerViewAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +60,10 @@ class BookmarkedJokesFragment : Fragment() {
 
     private fun showLoadingIndicator(view: FragmentBookmarkedJokesBinding) {
 
+    }
+
+    override fun onDeleteJoke(joke: Joke) {
+        viewModel.removeJokeFromBookmarks(joke)
     }
 
 
