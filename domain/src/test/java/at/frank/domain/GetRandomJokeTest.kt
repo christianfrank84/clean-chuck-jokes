@@ -4,11 +4,11 @@ package at.frank.domain
 import io.reactivex.Single
 import org.junit.Test
 
-class GetRandomJokeUseCaseImplTest {
+class GetRandomJokeTest {
     @Test
     fun shouldReturnObservableJokeFromRepository() {
         val expectedJoke = Joke("", "", "Joke", "")
-        val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
+        val useCase = GetRandomJoke(object : AbsMockRepo() {
             override fun getRandomJoke(): Single<Joke> {
                 return Single.just(expectedJoke)
             }
@@ -19,7 +19,7 @@ class GetRandomJokeUseCaseImplTest {
 
     @Test
     fun shouldReturnObservableErrorFromRepository() {
-        val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
+        val useCase = GetRandomJoke(object : AbsMockRepo() {
             override fun getRandomJoke(): Single<Joke> {
                 return Single.error(Throwable())
             }
@@ -30,7 +30,7 @@ class GetRandomJokeUseCaseImplTest {
 
     @Test
     fun shouldReturnObservableErrorIfJokeHasNoValues() {
-        val useCase = GetRandomJokeUseCaseImpl(object : AbsMockRepo() {
+        val useCase = GetRandomJoke(object : AbsMockRepo() {
             override fun getRandomJoke(): Single<Joke> {
                 return Single.just(Joke())
             }

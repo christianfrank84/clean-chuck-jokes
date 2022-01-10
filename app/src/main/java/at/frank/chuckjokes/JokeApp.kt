@@ -37,12 +37,12 @@ class JokeApp : Application(), JokeAppContract {
     override val observeOn: Scheduler = AndroidSchedulers.mainThread()
 
     override val getRandomJokeUseCase: GetRandomJokeUseCase by lazy {
-        GetRandomJokeUseCaseImpl(
+        GetRandomJoke(
             repository
         )
     }
     override val bookmarkJokeUseCase: BookmarkJokeUseCase by lazy {
-        BookmarkJokeUseCaseImpl(
+        BookmarkJoke(
             repository
         )
     }
