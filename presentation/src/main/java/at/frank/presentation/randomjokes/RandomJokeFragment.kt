@@ -49,8 +49,6 @@ class RandomJokeFragment : Fragment() {
                     else
                         viewModel.addDisplayedJokeToBookmarks()
                 }
-
-
             }
         }
 
