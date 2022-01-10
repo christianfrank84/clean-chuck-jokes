@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import at.frank.domain.Joke
+import at.frank.presentation.bookmarked.recyclerview.BookmarkedJokesRecyclerViewAdapter
 import at.frank.presentation.databinding.FragmentBookmarkedJokesBinding
 import at.frank.presentation.getJokeApp
 import at.frank.presentation.viewmodel.JokeViewModelFactory
 
 class BookmarkedJokesFragment : Fragment() {
     lateinit var viewModel: BookmarkedJokesViewModel
+
+    private val adapter = BookmarkedJokesRecyclerViewAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,8 @@ class BookmarkedJokesFragment : Fragment() {
                 }
             })
         }
+        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.adapter = adapter
 
         return view.root
     }
@@ -48,7 +54,7 @@ class BookmarkedJokesFragment : Fragment() {
     }
 
     private fun showBookmarkedJokes(view: FragmentBookmarkedJokesBinding, jokes: List<Joke>) {
-        TODO()
+        adapter.setData(jokes)
     }
 
     private fun showLoadingIndicator(view: FragmentBookmarkedJokesBinding) {
