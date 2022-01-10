@@ -7,7 +7,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/jokeFragment"
-        android:name="at.frank.presentation.jokes.JokeFragment"
+        android:name="at.frank.presentation.randomjokes.RandomJokeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_joke" />

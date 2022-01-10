@@ -1,36 +1,35 @@
-package at.frank.presentation.viewmodel
+package at.frank.presentation.randomjokes
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import at.frank.domain.Joke
 import at.frank.presentation.JokeAppContract
 import io.reactivex.disposables.CompositeDisposable
 
-class JokeViewModel(
+class RandomJokeViewModel(
     private val app: JokeAppContract
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    val jokeLiveData = MutableLiveData<JokeViewState>()
+    val jokeLiveData = MutableLiveData<RandomJokeViewState>()
 
     val toastLiveData = MutableLiveData<String>()
 
     fun loadInitialJoke() {
-        if (jokeLiveData.value == null || jokeLiveData.value !is JokeViewState.Loaded)
+        if (jokeLiveData.value == null || jokeLiveData.value !is RandomJokeViewState.Loaded)
             loadRandomJoke()
     }
 
     fun loadRandomJoke() {
-        jokeLiveData.postValue(JokeViewState.Loading)
+        jokeLiveData.postValue(RandomJokeViewState.Loading)
         app.getRandomJokeUseCase.invoke()
             .subscribeOn(app.subscribeOn)
             .observeOn(app.observeOn)
             .subscribe(
-                { onNext -> jokeLiveData.postValue(JokeViewState.Loaded(onNext)) },
+                { onNext -> jokeLiveData.postValue(RandomJokeViewState.Loaded(onNext)) },
                 { onError ->
                     jokeLiveData.postValue(
-                        JokeViewState.Error(
+                        RandomJokeViewState.Error(
                             onError.message ?: "Error"
                         )
                     )
@@ -45,11 +44,11 @@ class JokeViewModel(
 
     fun addDisplayedJokeToBookmarks() {
         val value = jokeLiveData.value
-        if (value != null && value is JokeViewState.Loaded) {
+        if (value != null && value is RandomJokeViewState.Loaded) {
             app.bookmarkJokeUseCase.invoke(value.joke).subscribeOn(app.subscribeOn)
                 .observeOn(app.observeOn).subscribe {
                 toastLiveData.postValue("Joke added to bookmarks!")
-                jokeLiveData.postValue(JokeViewState.Loaded(value.joke))
+                jokeLiveData.postValue(RandomJokeViewState.Loaded(value.joke))
             }.let { compositeDisposable.add(it) }
         }
     }
@@ -59,8 +58,3 @@ class JokeViewModel(
     }
 }
 
-sealed class JokeViewState {
-    class Loaded(val joke: Joke) : JokeViewState()
-    object Loading : JokeViewState()
-    class Error(val message: String) : JokeViewState()
-}

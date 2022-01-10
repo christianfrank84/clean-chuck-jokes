@@ -1,4 +1,4 @@
-package at.frank.presentation.jokes
+package at.frank.presentation.randomjokes
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +11,9 @@ import at.frank.presentation.viewmodel.JokeViewModelFactory
 import at.frank.domain.Joke
 import at.frank.presentation.databinding.FragmentJokeBinding
 import at.frank.presentation.getJokeApp
-import at.frank.presentation.viewmodel.JokeViewModel
-import at.frank.presentation.viewmodel.JokeViewState
 
-class JokeFragment : Fragment() {
-    lateinit var viewModel: JokeViewModel
+class RandomJokeFragment : Fragment() {
+    lateinit var viewModel: RandomJokeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,13 +24,13 @@ class JokeFragment : Fragment() {
 
         context?.let {
             val viewModelFactory = JokeViewModelFactory(it.getJokeApp())
-            viewModel = ViewModelProvider(this, viewModelFactory)[JokeViewModel::class.java]
+            viewModel = ViewModelProvider(this, viewModelFactory)[RandomJokeViewModel::class.java]
 
             viewModel.jokeLiveData.observe(viewLifecycleOwner, { state ->
                 when (state) {
-                    is JokeViewState.Loading -> showLoadingIndicator(view)
-                    is JokeViewState.Loaded -> showJoke(view, state.joke)
-                    is JokeViewState.Error -> showError(view, state.message)
+                    is RandomJokeViewState.Loading -> showLoadingIndicator(view)
+                    is RandomJokeViewState.Loaded -> showJoke(view, state.joke)
+                    is RandomJokeViewState.Error -> showError(view, state.message)
                 }
             })
 
