@@ -1,12 +1,8 @@
 package at.frank.data.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 interface JokeDao {
@@ -16,7 +12,7 @@ interface JokeDao {
     @Query("SELECT EXISTS (SELECT 1 FROM jokes WHERE id = :id)")
     fun isBookmarked(id: String): Boolean
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun bookmarkJoke(joke: JokeDBE): Completable
 
     @Delete

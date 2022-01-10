@@ -51,6 +51,17 @@ class JokeDatabaseReadWriteTest {
 
     @Test
     @Throws(Exception::class)
+    fun shouldReplaceJokeIfAnotherJokeIsWrittenToDbWithSameId() {
+        val joke1 = JokeDBE("1234", "", "funny joke", "")
+        userDao.bookmarkJoke(joke1).test().assertComplete().dispose()
+        val joke2 = JokeDBE("1234", "", "updatedfunny joke", "")
+        userDao.bookmarkJoke(joke2).test().assertComplete().dispose()
+        userDao.getBookmarkedJokes().test().assertComplete().assertValue { it.contains(joke2) }
+            .dispose()
+    }
+
+    @Test
+    @Throws(Exception::class)
     fun writeJokeToDbAndSeeIfItExists() {
         val joke = JokeDBE("1234", "", "funny joke", "")
         userDao.bookmarkJoke(joke).test().assertComplete().dispose()
