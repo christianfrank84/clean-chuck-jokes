@@ -37,10 +37,6 @@ class RandomJokeFragment : Fragment() {
                 }
             })
 
-            viewModel.toastLiveData.observe(viewLifecycleOwner, { message ->
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            })
-
             view.newJokeButton.setOnClickListener { viewModel.loadRandomJoke() }
             view.bookmarkButton.setOnClickListener {
                 displayedJoke?.let { joke ->
