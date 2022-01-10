@@ -2,6 +2,7 @@ package at.frank.presentation.randomjokes
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import at.frank.domain.Joke
 import at.frank.presentation.JokeAppContract
 import io.reactivex.disposables.CompositeDisposable
 
@@ -16,7 +17,7 @@ class RandomJokeViewModel(
     val toastLiveData = MutableLiveData<String>()
 
     fun loadInitialJoke() {
-        if (jokeLiveData.value == null || jokeLiveData.value !is RandomJokeViewState.Loaded)
+        if(currentlyDisplayedJoke()==null)
             loadRandomJoke()
     }
 
@@ -26,7 +27,9 @@ class RandomJokeViewModel(
             .subscribeOn(app.subscribeOn)
             .observeOn(app.observeOn)
             .subscribe(
-                { onNext -> jokeLiveData.postValue(RandomJokeViewState.Loaded(onNext)) },
+                { onNext ->
+                    jokeLiveData.postValue(RandomJokeViewState.Loaded(onNext))
+                },
                 { onError ->
                     jokeLiveData.postValue(
                         RandomJokeViewState.Error(
@@ -43,18 +46,29 @@ class RandomJokeViewModel(
     }
 
     fun addDisplayedJokeToBookmarks() {
-        val value = jokeLiveData.value
-        if (value != null && value is RandomJokeViewState.Loaded) {
-            app.bookmarkJokeUseCase.invoke(value.joke).subscribeOn(app.subscribeOn)
-                .observeOn(app.observeOn).subscribe {
-                toastLiveData.postValue("Joke added to bookmarks!")
-                jokeLiveData.postValue(RandomJokeViewState.Loaded(value.joke))
-            }.let { compositeDisposable.add(it) }
+        currentlyDisplayedJoke()?.let { joke ->
+            app.bookmarkJokeUseCase
+                .invoke(joke)
+                .subscribeOn(app.subscribeOn)
+                .observeOn(app.observeOn)
+                .subscribe {
+                    toastLiveData.postValue("Joke added to bookmarks!")
+                    jokeLiveData.postValue(RandomJokeViewState.Loaded(joke.apply {
+                        bookmarked = true
+                    }))
+                }.let { compositeDisposable.add(it) }
         }
     }
 
     fun removeDisplayedJokeFromBookmarks() {
         TODO("Not yet implemented")
+    }
+
+    private fun currentlyDisplayedJoke(): Joke? {
+        val currentViewState = jokeLiveData.value
+        return if (currentViewState is RandomJokeViewState.Loaded)
+            currentViewState.joke
+        else null
     }
 }
 

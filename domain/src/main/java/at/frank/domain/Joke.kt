@@ -8,7 +8,7 @@ data class Joke(
     val iconUrl: String = "",
     val value: String = "",
     val createdAt: String = "",
-    val bookmarked: Boolean = false
+    var bookmarked: Boolean = false
 ){
     fun mapToDTO(): JokeDTO =
         JokeDTO(id = id, iconUrl = iconUrl, value = value, createdAt = createdAt)

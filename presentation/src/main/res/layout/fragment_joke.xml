@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Theme.ChuckJokes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/Theme.ChuckJokes">
+        android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/jokeCard"
@@ -33,13 +33,18 @@
                     app:autoSizeTextType="uniform"
                     tools:text="Hello World, I'll tell you a good joke" />
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/bookmarkCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                <ImageView
+                    android:id="@+id/bookmarkButton"
+                    style="@style/BookmarkButton"
+                    android:layout_width="50dp"
+
+                    android:layout_height="50dp"
                     android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:text="bookmark" />
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_bookmark" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

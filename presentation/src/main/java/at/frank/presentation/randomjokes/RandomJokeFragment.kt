@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import at.frank.presentation.viewmodel.JokeViewModelFactory
 import at.frank.domain.Joke
+import at.frank.presentation.R
 import at.frank.presentation.databinding.FragmentJokeBinding
 import at.frank.presentation.getJokeApp
+import at.frank.presentation.viewmodel.JokeViewModelFactory
 
 class RandomJokeFragment : Fragment() {
     lateinit var viewModel: RandomJokeViewModel
+
+    var displayedJoke: Joke? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,13 +42,14 @@ class RandomJokeFragment : Fragment() {
             })
 
             view.newJokeButton.setOnClickListener { viewModel.loadRandomJoke() }
-            view.bookmarkCheckBox.setOnCheckedChangeListener { cb, isChecked ->
-                if (cb.isPressed) {
-                    if (isChecked)
-                        viewModel.addDisplayedJokeToBookmarks()
-                    else
+            view.bookmarkButton.setOnClickListener {
+                displayedJoke?.let { joke ->
+                    if (joke.bookmarked)
                         viewModel.removeDisplayedJokeFromBookmarks()
+                    else
+                        viewModel.addDisplayedJokeToBookmarks()
                 }
+
 
             }
         }
@@ -63,8 +67,14 @@ class RandomJokeFragment : Fragment() {
     }
 
     private fun showJoke(view: FragmentJokeBinding, joke: Joke) {
+        displayedJoke = joke
         view.jokeText.text = joke.value
-        view.bookmarkCheckBox.isChecked = joke.bookmarked
+        view.bookmarkButton.setImageResource(
+            if (joke.bookmarked)
+                R.drawable.ic_bookmarked
+            else
+                R.drawable.ic_bookmark
+        )
     }
 
     private fun showLoadingIndicator(view: FragmentJokeBinding) {
