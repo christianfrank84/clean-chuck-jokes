@@ -5,8 +5,7 @@ buildscript {
         minSdk = 21
         targetSdk = 31
 
-        implementation 'com.google.android.material:material:1.4.0'
-        implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+        coreKtxVersion = '1.7.0'
 
         retrofitVersion = '2.9.0'
         roomVersion = '2.4.0'
@@ -29,8 +28,4 @@ buildscript {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext{
-    
 }
