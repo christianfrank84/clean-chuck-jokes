@@ -11,8 +11,8 @@ android {
         applicationId "at.frank.chuckjokes"
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.vCode
+        versionName rootProject.ext.vName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
