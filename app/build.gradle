@@ -56,9 +56,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVersion}"
     implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroidVersion}"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVersion}"
 
 
 
