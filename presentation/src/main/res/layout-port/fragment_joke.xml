@@ -31,7 +31,7 @@
                     android:layout_margin="24dp"
                     android:layout_weight="10"
                     app:autoSizeTextType="uniform"
-                    tools:text="Hello World, I'll tell you a good joke" />
+                    tools:text="Hello World, I'll tell you a good joke, a really really long one actually" />
 
                 <ImageView
                     android:id="@+id/bookmarkButton"
@@ -51,12 +51,13 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/newJokeButton"
             style="@style/Widget.MaterialComponents.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_shuffle"
             android:text="@string/hit_me_again"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
