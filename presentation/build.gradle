@@ -40,12 +40,12 @@ dependencies {
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "android.arch.core:core-testing:$archCoreTestingVersion"
     //instrumented testing
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.test.ext:junit:$androidJUnitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
 
     implementation "androidx.core:core-ktx:$coreKtxVersion"
 
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation 'com.google.android.material:material:1.4.0'
 
     implementation 'androidx.fragment:fragment-ktx:1.4.0'
