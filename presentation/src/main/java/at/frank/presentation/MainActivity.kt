@@ -7,6 +7,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
+    private val selectedNavigationIdKey = "navIdKey"
+
     private val randomJokeFragment: Fragment by lazy { supportFragmentManager.findFragmentById(R.id.jokeFragment) as Fragment }
     private val bookmarkedJokesFragment: Fragment by lazy {
         supportFragmentManager.findFragmentById(
@@ -14,11 +16,13 @@ class MainActivity : AppCompatActivity() {
         ) as Fragment
     }
 
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.navigation)
+        bottomNavigationView = findViewById(R.id.navigation)
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -29,8 +33,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        bottomNavigationView.selectedItemId = R.id.navigationRandom
+        val defaultNavigationSelection = R.id.navigationRandom
+        bottomNavigationView.selectedItemId = savedInstanceState?.getInt(
+            selectedNavigationIdKey,
+            defaultNavigationSelection
+        ) ?: defaultNavigationSelection
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(selectedNavigationIdKey, bottomNavigationView.selectedItemId)
+        super.onSaveInstanceState(outState)
+    }
+
 
     private fun showRandomJokeFragment(): Boolean {
         showFragment(randomJokeFragment)
