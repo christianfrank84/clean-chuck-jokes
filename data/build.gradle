@@ -45,12 +45,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
 
     //room database
-    implementation "androidx.room:room-runtime:${rootProject.ext.roomVersion}"
-    annotationProcessor "androidx.room:room-compiler:${rootProject.ext.roomVersion}"
-    kapt "androidx.room:room-compiler:${rootProject.ext.roomVersion}"
-    implementation "androidx.room:room-rxjava2:${rootProject.ext.roomVersion}"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
 
-    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
-    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 }
