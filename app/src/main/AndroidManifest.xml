@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChuckJokes">
         <activity
-            android:name="at.frank.presentation.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

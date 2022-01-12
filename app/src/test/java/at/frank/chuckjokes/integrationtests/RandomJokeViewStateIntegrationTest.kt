@@ -1,13 +1,12 @@
 package at.frank.chuckjokes.integrationtests
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import at.frank.data.local.JokeDBE
-import at.frank.data.local.JokeDao
-import at.frank.data.remote.ChuckNorrisApi
-import at.frank.data.remote.JokeDTO
-import at.frank.domain.Joke
-import at.frank.presentation.randomjokes.RandomJokeViewModel
-import at.frank.presentation.randomjokes.RandomJokeViewState
+import at.frank.chuckjokes.data.local.JokeDBE
+import at.frank.chuckjokes.data.local.JokeDao
+import at.frank.chuckjokes.data.remote.ChuckNorrisApi
+import at.frank.chuckjokes.domain.Joke
+import at.frank.chuckjokes.presentation.randomjokes.RandomJokeViewModel
+import at.frank.chuckjokes.presentation.randomjokes.RandomJokeViewState
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
