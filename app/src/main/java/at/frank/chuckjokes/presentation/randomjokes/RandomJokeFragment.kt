@@ -1,15 +1,18 @@
 package at.frank.chuckjokes.presentation.randomjokes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import at.frank.chuckjokes.JokeApp
 import at.frank.chuckjokes.R
 import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.databinding.FragmentJokeBinding
-import at.frank.chuckjokes.domain.Joke
+import at.frank.chuckjokes.domain.*
+import at.frank.chuckjokes.presentation.MainActivity
 import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
 import javax.inject.Inject
@@ -17,7 +20,19 @@ import javax.inject.Inject
 class RandomJokeFragment : Fragment() {
     @Inject lateinit var viewModel: RandomJokeViewModel
 
-    var displayedJoke: Joke? = null
+    private var displayedJoke: Joke? = null
+
+    @Inject lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
+    @Inject lateinit var getRandomJokeUseCase: GetRandomJokeUseCase
+    @Inject lateinit var bookmarkJokeUseCase: BookmarkJokeUseCase
+    @Inject lateinit var removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase
+
+    @Inject lateinit var rxSchedulers: RxSchedulers
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as JokeApp).applicationComponent.injectRandomJokeFragment(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +43,12 @@ class RandomJokeFragment : Fragment() {
 
         context?.let {
 
-            val jokeApp = it.getJokeApp()
             val viewModelFactory = JokeViewModelFactory(
-                jokeApp.getBookmarkedJokesUseCase,
-                jokeApp.getRandomJokeUseCase,
-                jokeApp.bookmarkJokeUseCase,
-                jokeApp.removeJokeFromBookmarksUseCase,
-                RxSchedulers(jokeApp.subscribeOn, jokeApp.observeOn)
+                getBookmarkedJokesUseCase,
+                getRandomJokeUseCase,
+                bookmarkJokeUseCase,
+                removeJokeFromBookmarksUseCase,
+                rxSchedulers
             )
 
             viewModel = ViewModelProvider(this, viewModelFactory)[RandomJokeViewModel::class.java]

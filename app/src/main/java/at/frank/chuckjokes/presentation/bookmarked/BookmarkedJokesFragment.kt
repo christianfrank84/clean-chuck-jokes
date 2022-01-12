@@ -1,5 +1,6 @@
 package at.frank.chuckjokes.presentation.bookmarked
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,18 +8,37 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import at.frank.chuckjokes.JokeApp
 import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.databinding.FragmentBookmarkedJokesBinding
-import at.frank.chuckjokes.domain.Joke
+import at.frank.chuckjokes.domain.*
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.BookmarkedJokesRecyclerViewAdapter
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.DeleteJokeFromBookmarksListener
 import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
+import javax.inject.Inject
 
 class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
     lateinit var viewModel: BookmarkedJokesViewModel
 
     private val adapter = BookmarkedJokesRecyclerViewAdapter(this)
+
+    @Inject
+    lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
+    @Inject
+    lateinit var getRandomJokeUseCase: GetRandomJokeUseCase
+    @Inject
+    lateinit var bookmarkJokeUseCase: BookmarkJokeUseCase
+    @Inject
+    lateinit var removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase
+
+    @Inject
+    lateinit var rxSchedulers: RxSchedulers
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as JokeApp).applicationComponent.injectBookmarkedJokesFragment(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +48,12 @@ class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
         val view = FragmentBookmarkedJokesBinding.inflate(inflater, container, false)
 
         context?.let {
-            val jokeApp = it.getJokeApp()
             val viewModelFactory = JokeViewModelFactory(
-                jokeApp.getBookmarkedJokesUseCase,
-                jokeApp.getRandomJokeUseCase,
-                jokeApp.bookmarkJokeUseCase,
-                jokeApp.removeJokeFromBookmarksUseCase,
-                RxSchedulers(jokeApp.subscribeOn, jokeApp.observeOn)
+                getBookmarkedJokesUseCase,
+                getRandomJokeUseCase,
+                bookmarkJokeUseCase,
+                removeJokeFromBookmarksUseCase,
+                rxSchedulers
             )
 
             viewModel =
