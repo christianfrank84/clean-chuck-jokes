@@ -8,6 +8,8 @@ buildscript {
 
         coreKtxVersion = '1.7.0'
 
+        daggerVersion = '2.38.1'
+
         appCompatVersion = '1.4.0'
 
         retrofitVersion = '2.9.0'
