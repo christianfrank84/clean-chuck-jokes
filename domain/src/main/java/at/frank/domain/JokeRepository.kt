@@ -15,20 +15,17 @@ interface JokeRepository {
 
 class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: JokeDao) :
     JokeRepository {
-    override fun getRandomJoke(): Single<Joke>{
+    override fun getRandomJoke(): Single<Joke> {
         return api.getRandomChuckNorrisJoke().flatMap { jokeDTO ->
             Single.create {
+                val bookmarked = jokeDao.isBookmarked(jokeDTO.id)
+                val joke = Joke.mapFromDTO(jokeDTO).apply { this.bookmarked = bookmarked }
                 if (!it.isDisposed) {
-                        val bookmarked = jokeDao.isBookmarked(jokeDTO.id)
-                        it.onSuccess(
-                            Joke.mapFromDTO(jokeDTO).apply {
-                                this.bookmarked = bookmarked
-
-                            })
-                    }
+                    it.onSuccess(joke)
                 }
             }
         }
+    }
 
     override fun getBookmarkedJokes(): Flowable<List<Joke>> =
         jokeDao.getBookmarkedJokes().map { list ->

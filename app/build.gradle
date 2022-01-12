@@ -39,6 +39,7 @@ dependencies {
 
     //unittesting
     testImplementation "junit:junit:$jUnitVersion"
+    testImplementation "android.arch.core:core-testing:$archCoreTestingVersion"
     //instrumented testing
     androidTestImplementation "androidx.test.ext:junit:$androidJUnitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
