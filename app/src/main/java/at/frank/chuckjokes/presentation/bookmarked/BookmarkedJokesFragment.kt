@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.databinding.FragmentBookmarkedJokesBinding
 import at.frank.chuckjokes.domain.Joke
-import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.BookmarkedJokesRecyclerViewAdapter
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.DeleteJokeFromBookmarksListener
+import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
 
 class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
@@ -27,7 +28,15 @@ class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
         val view = FragmentBookmarkedJokesBinding.inflate(inflater, container, false)
 
         context?.let {
-            val viewModelFactory = JokeViewModelFactory(it.getJokeApp())
+            val jokeApp = it.getJokeApp()
+            val viewModelFactory = JokeViewModelFactory(
+                jokeApp.getBookmarkedJokesUseCase,
+                jokeApp.getRandomJokeUseCase,
+                jokeApp.bookmarkJokeUseCase,
+                jokeApp.removeJokeFromBookmarksUseCase,
+                RxSchedulers(jokeApp.subscribeOn, jokeApp.observeOn)
+            )
+
             viewModel =
                 ViewModelProvider(this, viewModelFactory)[BookmarkedJokesViewModel::class.java]
 

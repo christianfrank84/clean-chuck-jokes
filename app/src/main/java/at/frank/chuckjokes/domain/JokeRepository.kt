@@ -5,6 +5,8 @@ import at.frank.chuckjokes.data.remote.ChuckNorrisApi
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface JokeRepository {
     fun getRandomJoke(): Single<Joke>
@@ -13,7 +15,11 @@ interface JokeRepository {
     fun removeBookmarkedJoke(joke: Joke): Completable
 }
 
-class JokeRepositoryImpl(private val api: ChuckNorrisApi, private val jokeDao: JokeDao) :
+@Singleton
+class JokeRepositoryImpl @Inject constructor(
+    private val api: ChuckNorrisApi,
+    private val jokeDao: JokeDao
+) :
     JokeRepository {
     override fun getRandomJoke(): Single<Joke> {
         return api.getRandomChuckNorrisJoke().flatMap { jokeDTO ->

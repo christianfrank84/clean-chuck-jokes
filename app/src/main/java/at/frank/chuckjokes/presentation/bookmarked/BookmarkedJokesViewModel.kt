@@ -2,12 +2,16 @@ package at.frank.chuckjokes.presentation.bookmarked
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import at.frank.chuckjokes.domain.Joke
-import at.frank.chuckjokes.presentation.JokeAppContract
+import at.frank.chuckjokes.RxSchedulers
+import at.frank.chuckjokes.domain.*
 import io.reactivex.disposables.CompositeDisposable
 
 class BookmarkedJokesViewModel(
-    private val app: JokeAppContract
+    private val getRandomJokeUseCase: GetRandomJokeUseCase,
+    private val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase,
+    private val bookmarkJokeUseCase: BookmarkJokeUseCase,
+    private val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase,
+    private val schedulers: RxSchedulers
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -17,9 +21,9 @@ class BookmarkedJokesViewModel(
 
     fun loadBookmarkedJokes() {
         viewState.postValue(BookmarkedJokesViewState.Loading)
-        app.getBookmarkedJokesUseCase.invoke()
-            .subscribeOn(app.subscribeOn)
-            .observeOn(app.observeOn)
+        getBookmarkedJokesUseCase.invoke()
+            .subscribeOn(schedulers.subscriptionScheduler)
+            .observeOn(schedulers.observerScheduler)
             .subscribe(
                 { onNext ->
                     viewState.postValue(BookmarkedJokesViewState.Loaded(onNext))
@@ -40,8 +44,11 @@ class BookmarkedJokesViewModel(
     }
 
     fun removeJokeFromBookmarks(joke: Joke) {
-        app.removeJokeFromBookmarksUseCase.invoke(joke).subscribeOn(app.subscribeOn)
-            .observeOn(app.observeOn).subscribe {
+        removeJokeFromBookmarksUseCase
+            .invoke(joke)
+            .subscribeOn(schedulers.subscriptionScheduler)
+            .observeOn(schedulers.observerScheduler)
+            .subscribe {
 
             }.let { compositeDisposable.add(it) }
     }

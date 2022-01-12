@@ -2,12 +2,18 @@ package at.frank.chuckjokes.presentation.randomjokes
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import at.frank.chuckjokes.domain.Joke
-import at.frank.chuckjokes.presentation.JokeAppContract
+import at.frank.chuckjokes.RxSchedulers
+import at.frank.chuckjokes.domain.*
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class RandomJokeViewModel(
-    private val app: JokeAppContract
+class RandomJokeViewModel @Inject constructor(
+    private val getRandomJokeUseCase: GetRandomJokeUseCase,
+    private val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase,
+    private val bookmarkJokeUseCase: BookmarkJokeUseCase,
+    private val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase,
+    private val schedulers: RxSchedulers
+
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -21,10 +27,10 @@ class RandomJokeViewModel(
     }
 
     private fun observeBookmarks() {
-        app.getBookmarkedJokesUseCase
+        getBookmarkedJokesUseCase
             .invoke()
-            .subscribeOn(app.subscribeOn)
-            .observeOn(app.observeOn)
+            .subscribeOn(schedulers.subscriptionScheduler)
+            .observeOn(schedulers.observerScheduler)
             .subscribe(
                 { bookmarkedJokes ->
                     currentlyDisplayedJoke()?.let { currentJoke ->
@@ -39,9 +45,9 @@ class RandomJokeViewModel(
 
     fun loadRandomJoke() {
         viewState.postValue(RandomJokeViewState.Loading)
-        app.getRandomJokeUseCase.invoke()
-            .subscribeOn(app.subscribeOn)
-            .observeOn(app.observeOn)
+        getRandomJokeUseCase.invoke()
+            .subscribeOn(schedulers.subscriptionScheduler)
+            .observeOn(schedulers.observerScheduler)
             .subscribe(
                 { onNext -> postJokeToViewState(onNext) },
                 { onError ->
@@ -61,10 +67,10 @@ class RandomJokeViewModel(
 
     fun addDisplayedJokeToBookmarks() {
         currentlyDisplayedJoke()?.let { joke ->
-            app.bookmarkJokeUseCase
+            bookmarkJokeUseCase
                 .invoke(joke)
-                .subscribeOn(app.subscribeOn)
-                .observeOn(app.observeOn)
+                .subscribeOn(schedulers.subscriptionScheduler)
+                .observeOn(schedulers.observerScheduler)
                 .subscribe {
                     postJokeToViewState(joke.apply { bookmarked = true })
                 }.let { compositeDisposable.add(it) }
@@ -73,10 +79,10 @@ class RandomJokeViewModel(
 
     fun removeDisplayedJokeFromBookmarks() {
         currentlyDisplayedJoke()?.let { joke ->
-            app.removeJokeFromBookmarksUseCase
+            removeJokeFromBookmarksUseCase
                 .invoke(joke)
-                .subscribeOn(app.subscribeOn)
-                .observeOn(app.observeOn)
+                .subscribeOn(schedulers.subscriptionScheduler)
+                .observeOn(schedulers.observerScheduler)
                 .subscribe {
                     postJokeToViewState(joke.apply { bookmarked = false })
                 }

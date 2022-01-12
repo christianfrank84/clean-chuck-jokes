@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import at.frank.chuckjokes.R
+import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.databinding.FragmentJokeBinding
 import at.frank.chuckjokes.domain.Joke
 import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
+import javax.inject.Inject
 
 class RandomJokeFragment : Fragment() {
-    lateinit var viewModel: RandomJokeViewModel
+    @Inject lateinit var viewModel: RandomJokeViewModel
 
     var displayedJoke: Joke? = null
 
@@ -25,7 +27,16 @@ class RandomJokeFragment : Fragment() {
         val view = FragmentJokeBinding.inflate(inflater, container, false)
 
         context?.let {
-            val viewModelFactory = JokeViewModelFactory(it.getJokeApp())
+
+            val jokeApp = it.getJokeApp()
+            val viewModelFactory = JokeViewModelFactory(
+                jokeApp.getBookmarkedJokesUseCase,
+                jokeApp.getRandomJokeUseCase,
+                jokeApp.bookmarkJokeUseCase,
+                jokeApp.removeJokeFromBookmarksUseCase,
+                RxSchedulers(jokeApp.subscribeOn, jokeApp.observeOn)
+            )
+
             viewModel = ViewModelProvider(this, viewModelFactory)[RandomJokeViewModel::class.java]
 
             viewModel.viewState.observe(viewLifecycleOwner, { state ->

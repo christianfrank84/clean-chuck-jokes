@@ -6,6 +6,7 @@ import androidx.room.Room
 import at.frank.chuckjokes.data.local.JokeDatabase
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi
 import at.frank.chuckjokes.data.remote.RetroFitModule
+import at.frank.chuckjokes.di.DaggerApplicationComponent
 import at.frank.chuckjokes.domain.*
 import at.frank.chuckjokes.presentation.JokeAppContract
 import io.reactivex.Scheduler
@@ -14,6 +15,8 @@ import io.reactivex.schedulers.Schedulers
 
 
 class JokeApp : Application(), JokeAppContract {
+
+    val appComponent = DaggerApplicationComponent.create()
 
     private val db by lazy {
         Room.databaseBuilder(
