@@ -9,13 +9,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetworkModule {
+class NetworkModule(private val endpoint: String) {
 
     @Singleton
     @Provides
     fun providesChuckNorrisApi(): ChuckNorrisApi {
         return Retrofit.Builder()
-            .baseUrl("https://api.chucknorris.io/")
+            .baseUrl(endpoint)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build().create(ChuckNorrisApi::class.java)

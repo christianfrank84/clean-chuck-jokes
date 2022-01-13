@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import at.frank.chuckjokes.di.ApplicationComponent
 import at.frank.chuckjokes.di.DaggerApplicationComponent
 import at.frank.chuckjokes.di.DatabaseModule
+import at.frank.chuckjokes.di.NetworkModule
 
 class JokeApp : Application() {
 
@@ -16,6 +17,7 @@ class JokeApp : Application() {
             DaggerApplicationComponent
                 .builder()
                 .databaseModule(DatabaseModule(this))
+                .networkModule(NetworkModule("https://api.chucknorris.io/"))
                 .build()
 
         super.onCreate()

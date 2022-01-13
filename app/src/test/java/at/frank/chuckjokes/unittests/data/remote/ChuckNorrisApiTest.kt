@@ -2,7 +2,7 @@ package at.frank.chuckjokes.unittests.data.remote
 
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi
 import at.frank.chuckjokes.data.remote.JokeDTO
-import at.frank.chuckjokes.data.remote.RetroFitModule
+import at.frank.chuckjokes.di.NetworkModule
 import com.google.gson.Gson
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -20,8 +20,7 @@ class ChuckNorrisApiTest {
         jokeServer = MockWebServer()
         jokeServer.start(8080)
 
-        api = RetroFitModule("http://${jokeServer.hostName}:${jokeServer.port}").invoke()
-            .create(ChuckNorrisApi::class.java)
+        api = NetworkModule("http://${jokeServer.hostName}:${jokeServer.port}").providesChuckNorrisApi()
     }
 
     @Test
