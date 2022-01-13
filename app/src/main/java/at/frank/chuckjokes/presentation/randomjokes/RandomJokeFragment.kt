@@ -13,9 +13,10 @@ import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.databinding.FragmentJokeBinding
 import at.frank.chuckjokes.domain.*
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class RandomJokeFragment : Fragment() {
+class RandomJokeFragment : DaggerFragment() {
 
     private lateinit var viewModel: RandomJokeViewModel
     private lateinit var binding: FragmentJokeBinding
@@ -34,11 +35,6 @@ class RandomJokeFragment : Fragment() {
 
     @Inject
     lateinit var rxSchedulers: RxSchedulers
-
-    override fun onAttach(context: Context) {
-        (context.applicationContext as JokeApp).applicationComponent.injectRandomJokeFragment(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

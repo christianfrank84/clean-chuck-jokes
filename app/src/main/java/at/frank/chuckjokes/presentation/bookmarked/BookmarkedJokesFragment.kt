@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import at.frank.chuckjokes.JokeApp
@@ -15,9 +14,10 @@ import at.frank.chuckjokes.domain.*
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.BookmarkedJokesRecyclerViewAdapter
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.DeleteJokeFromBookmarksListener
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
+class BookmarkedJokesFragment : DaggerFragment(), DeleteJokeFromBookmarksListener {
     lateinit var viewModel: BookmarkedJokesViewModel
 
     private val adapter = BookmarkedJokesRecyclerViewAdapter(this)
@@ -36,13 +36,6 @@ class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
 
     @Inject
     lateinit var rxSchedulers: RxSchedulers
-
-    override fun onAttach(context: Context) {
-        (context.applicationContext as JokeApp).applicationComponent.injectBookmarkedJokesFragment(
-            this
-        )
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
