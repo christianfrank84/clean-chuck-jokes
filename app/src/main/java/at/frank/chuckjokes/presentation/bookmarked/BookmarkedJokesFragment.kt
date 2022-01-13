@@ -14,7 +14,6 @@ import at.frank.chuckjokes.databinding.FragmentBookmarkedJokesBinding
 import at.frank.chuckjokes.domain.*
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.BookmarkedJokesRecyclerViewAdapter
 import at.frank.chuckjokes.presentation.bookmarked.recyclerview.DeleteJokeFromBookmarksListener
-import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
 import javax.inject.Inject
 
@@ -25,10 +24,13 @@ class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
 
     @Inject
     lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
+
     @Inject
     lateinit var getRandomJokeUseCase: GetRandomJokeUseCase
+
     @Inject
     lateinit var bookmarkJokeUseCase: BookmarkJokeUseCase
+
     @Inject
     lateinit var removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase
 
@@ -36,7 +38,9 @@ class BookmarkedJokesFragment : Fragment(), DeleteJokeFromBookmarksListener {
     lateinit var rxSchedulers: RxSchedulers
 
     override fun onAttach(context: Context) {
-        (context.applicationContext as JokeApp).applicationComponent.injectBookmarkedJokesFragment(this)
+        (context.applicationContext as JokeApp).applicationComponent.injectBookmarkedJokesFragment(
+            this
+        )
         super.onAttach(context)
     }
 

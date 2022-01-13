@@ -12,22 +12,26 @@ import at.frank.chuckjokes.R
 import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.databinding.FragmentJokeBinding
 import at.frank.chuckjokes.domain.*
-import at.frank.chuckjokes.presentation.MainActivity
-import at.frank.chuckjokes.presentation.getJokeApp
 import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
 import javax.inject.Inject
 
 class RandomJokeFragment : Fragment() {
-    @Inject lateinit var viewModel: RandomJokeViewModel
+    @Inject
+    lateinit var viewModel: RandomJokeViewModel
 
     private var displayedJoke: Joke? = null
 
-    @Inject lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
-    @Inject lateinit var getRandomJokeUseCase: GetRandomJokeUseCase
-    @Inject lateinit var bookmarkJokeUseCase: BookmarkJokeUseCase
-    @Inject lateinit var removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase
+    @Inject
+    lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
+    @Inject
+    lateinit var getRandomJokeUseCase: GetRandomJokeUseCase
+    @Inject
+    lateinit var bookmarkJokeUseCase: BookmarkJokeUseCase
+    @Inject
+    lateinit var removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase
 
-    @Inject lateinit var rxSchedulers: RxSchedulers
+    @Inject
+    lateinit var rxSchedulers: RxSchedulers
 
     override fun onAttach(context: Context) {
         (context.applicationContext as JokeApp).applicationComponent.injectRandomJokeFragment(this)

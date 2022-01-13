@@ -1,13 +1,12 @@
 package at.frank.chuckjokes.unittests.presentation.randomjokes
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.domain.*
-import at.frank.chuckjokes.presentation.JokeAppContract
 import at.frank.chuckjokes.presentation.randomjokes.RandomJokeViewModel
 import at.frank.chuckjokes.presentation.randomjokes.RandomJokeViewState
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
@@ -17,28 +16,30 @@ import org.junit.Rule
 import org.junit.Test
 
 class RandomJokeViewModelTest {
-    private val mockedAppContract = object : JokeAppContract {
-        override val subscribeOn: Scheduler = Schedulers.trampoline()
-        override val observeOn: Scheduler = Schedulers.trampoline()
-        override val getRandomJokeUseCase: GetRandomJokeUseCase = object : GetRandomJokeUseCase {
+
+    private val testRxSchedulers = RxSchedulers(Schedulers.trampoline(), Schedulers.trampoline())
+
+    private val getRandomJokeUseCase: GetRandomJokeUseCase =
+        object : GetRandomJokeUseCase {
             override fun invoke(): Single<Joke> {
                 return Single.just(Joke(value = "this is a joke!"))
             }
         }
-        override val bookmarkJokeUseCase: BookmarkJokeUseCase = object : BookmarkJokeUseCase {
+
+    private val bookmarkJokeUseCase: BookmarkJokeUseCase =
+        object : BookmarkJokeUseCase {
             override fun invoke(joke: Joke) = Completable.complete()
         }
-        override val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase =
-            object : GetBookmarkedJokesUseCase {
-                override fun invoke(): Flowable<List<Joke>> = Flowable.just(emptyList())
 
-            }
-        override val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase =
-            object : RemoveJokeFromBookmarksUseCase {
-                override fun invoke(joke: Joke) = Completable.complete()
+    private val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase =
+        object : GetBookmarkedJokesUseCase {
+            override fun invoke(): Flowable<List<Joke>> = Flowable.just(emptyList())
+        }
 
-            }
-    }
+    private val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase =
+        object : RemoveJokeFromBookmarksUseCase {
+            override fun invoke(joke: Joke) = Completable.complete()
+        }
 
     lateinit var viewModel: RandomJokeViewModel
 
@@ -47,7 +48,13 @@ class RandomJokeViewModelTest {
 
     @Test
     fun `should emit Loaded state if usecase emits a Joke`() {
-        viewModel = RandomJokeViewModel(mockedAppContract)
+        viewModel = RandomJokeViewModel(
+            getRandomJokeUseCase = getRandomJokeUseCase,
+            getBookmarkedJokesUseCase = getBookmarkedJokesUseCase,
+            bookmarkJokeUseCase = bookmarkJokeUseCase,
+            removeJokeFromBookmarksUseCase = removeJokeFromBookmarksUseCase,
+            schedulers = testRxSchedulers
+        )
         viewModel.loadInitialJoke()
         assertTrue(viewModel.viewState.value is RandomJokeViewState.Loaded)
         assertEquals(
