@@ -45,8 +45,15 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidJUnitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
     androidTestImplementation "android.arch.core:core-testing:$archCoreTestingVersion"
+    // Using Dagger in androidTest and Robolectric too
+    kaptTest "com.google.dagger:dagger-android-processor:$daggerVersion"//TODO check if this is needed
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$daggerVersion"//TODO check if this is needed
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
 
     debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+
 
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
