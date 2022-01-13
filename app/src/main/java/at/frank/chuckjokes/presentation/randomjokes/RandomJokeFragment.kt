@@ -19,8 +19,6 @@ class RandomJokeFragment : Fragment() {
 
     lateinit var viewModel: RandomJokeViewModel
 
-    private var displayedJoke: Joke? = null
-
     @Inject
     lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
     @Inject
@@ -66,14 +64,7 @@ class RandomJokeFragment : Fragment() {
             })
 
             view.newJokeButton.setOnClickListener { viewModel.loadRandomJoke() }
-            view.bookmarkButton.setOnClickListener {
-                displayedJoke?.let { joke ->
-                    if (joke.bookmarked)
-                        viewModel.removeDisplayedJokeFromBookmarks()
-                    else
-                        viewModel.addDisplayedJokeToBookmarks()
-                }
-            }
+            view.bookmarkButton.setOnClickListener { viewModel.bookmarkPressed() }
         }
 
         return view.root
@@ -89,7 +80,6 @@ class RandomJokeFragment : Fragment() {
     }
 
     private fun showJoke(view: FragmentJokeBinding, joke: Joke) {
-        displayedJoke = joke
         view.jokeText.text = joke.value
         view.bookmarkButton.setImageResource(
             if (joke.bookmarked)
@@ -102,6 +92,4 @@ class RandomJokeFragment : Fragment() {
     private fun showLoadingIndicator(view: FragmentJokeBinding) {
 
     }
-
-
 }

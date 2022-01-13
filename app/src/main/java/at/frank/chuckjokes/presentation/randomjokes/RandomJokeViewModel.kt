@@ -99,5 +99,13 @@ class RandomJokeViewModel @Inject constructor(
     private fun postJokeToViewState(joke: Joke) {
         viewState.postValue(RandomJokeViewState.Loaded(joke))
     }
+
+    fun bookmarkPressed() {
+        currentlyDisplayedJoke()?.let {
+            if (it.bookmarked)
+                removeDisplayedJokeFromBookmarks()
+            else addDisplayedJokeToBookmarks()
+        }
+    }
 }
 
