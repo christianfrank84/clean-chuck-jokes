@@ -1,6 +1,5 @@
 package at.frank.chuckjokes
 
-import androidx.appcompat.app.AppCompatDelegate
 import at.frank.chuckjokes.di.ApplicationComponent
 import at.frank.chuckjokes.di.DaggerApplicationComponent
 import at.frank.chuckjokes.di.DatabaseModule
