@@ -10,6 +10,8 @@ buildscript {
 
         daggerVersion = '2.38.1'
 
+        fragmentVersion = '1.4.0'
+
         appCompatVersion = '1.4.0'
 
         retrofitVersion = '2.9.0'
