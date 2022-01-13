@@ -1,4 +1,4 @@
-package at.frank.chuckjokes.presentation.randomjokes
+package at.frank.chuckjokes.database
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
