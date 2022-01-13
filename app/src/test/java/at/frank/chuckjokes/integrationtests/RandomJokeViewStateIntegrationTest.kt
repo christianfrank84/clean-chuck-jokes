@@ -1,20 +1,35 @@
 package at.frank.chuckjokes.integrationtests
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import at.frank.chuckjokes.RxSchedulers
 import at.frank.chuckjokes.data.local.JokeDBE
 import at.frank.chuckjokes.data.local.JokeDao
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi
-import at.frank.chuckjokes.domain.Joke
+import at.frank.chuckjokes.domain.*
 import at.frank.chuckjokes.presentation.randomjokes.RandomJokeViewModel
 import at.frank.chuckjokes.presentation.randomjokes.RandomJokeViewState
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
 class RandomJokeViewStateIntegrationTest {
+
+    private class TestModules(api: ChuckNorrisApi, dao: JokeDao) {
+        val rxSchedulers = RxSchedulers(Schedulers.trampoline(), Schedulers.trampoline())
+
+        private val jokeRepository = JokeRepositoryImpl(api, dao)
+
+        val getRandomJokeUseCase: GetRandomJokeUseCase = GetRandomJoke(jokeRepository)
+        val bookmarkJokeUseCase: BookmarkJokeUseCase = BookmarkJoke(jokeRepository)
+        val getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase =
+            GetBookmarkedJokes(jokeRepository)
+        val removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase =
+            RemoveJokeFromBookmarks(jokeRepository)
+    }
 
     @get:Rule
     val liveDataRule = InstantTaskExecutorRule()
@@ -51,9 +66,15 @@ class RandomJokeViewStateIntegrationTest {
 
         }
 
-        val integrationTestApp = JokeIntegrationTestApp(api, dao)
+        val testModules = TestModules(api, dao)
 
-        val viewModel = RandomJokeViewModel(integrationTestApp)
+        val viewModel = RandomJokeViewModel(
+            testModules.getRandomJokeUseCase,
+            testModules.getBookmarkedJokesUseCase,
+            testModules.bookmarkJokeUseCase,
+            testModules.removeJokeFromBookmarksUseCase,
+            testModules.rxSchedulers
+        )
         viewModel.loadInitialJoke()
 
         val actualViewState = viewModel.viewState.value
