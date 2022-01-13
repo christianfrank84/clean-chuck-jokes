@@ -17,14 +17,18 @@ import javax.inject.Inject
 
 class RandomJokeFragment : Fragment() {
 
-    lateinit var viewModel: RandomJokeViewModel
+    private lateinit var viewModel: RandomJokeViewModel
+    private lateinit var binding: FragmentJokeBinding
 
     @Inject
     lateinit var getBookmarkedJokesUseCase: GetBookmarkedJokesUseCase
+
     @Inject
     lateinit var getRandomJokeUseCase: GetRandomJokeUseCase
+
     @Inject
     lateinit var bookmarkJokeUseCase: BookmarkJokeUseCase
+
     @Inject
     lateinit var removeJokeFromBookmarksUseCase: RemoveJokeFromBookmarksUseCase
 
@@ -41,10 +45,9 @@ class RandomJokeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = FragmentJokeBinding.inflate(inflater, container, false)
+        binding = FragmentJokeBinding.inflate(inflater, container, false)
 
         context?.let {
-
             val viewModelFactory = JokeViewModelFactory(
                 getBookmarkedJokesUseCase,
                 getRandomJokeUseCase,
@@ -57,17 +60,17 @@ class RandomJokeFragment : Fragment() {
 
             viewModel.viewState.observe(viewLifecycleOwner, { state ->
                 when (state) {
-                    is RandomJokeViewState.Loading -> showLoadingIndicator(view)
-                    is RandomJokeViewState.Loaded -> showJoke(view, state.joke)
-                    is RandomJokeViewState.Error -> showError(view, state.message)
+                    is RandomJokeViewState.Loading -> showLoadingIndicator()
+                    is RandomJokeViewState.Loaded -> showJoke(state.joke)
+                    is RandomJokeViewState.Error -> showError(state.message)
                 }
             })
 
-            view.newJokeButton.setOnClickListener { viewModel.loadRandomJoke() }
-            view.bookmarkButton.setOnClickListener { viewModel.bookmarkPressed() }
+            binding.newJokeButton.setOnClickListener { viewModel.loadRandomJoke() }
+            binding.bookmarkButton.setOnClickListener { viewModel.bookmarkPressed() }
         }
 
-        return view.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,13 +78,13 @@ class RandomJokeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun showError(view: FragmentJokeBinding, message: String) {
-        view.jokeText.text = message
+    private fun showError(message: String) {
+        binding.jokeText.text = message
     }
 
-    private fun showJoke(view: FragmentJokeBinding, joke: Joke) {
-        view.jokeText.text = joke.value
-        view.bookmarkButton.setImageResource(
+    private fun showJoke(joke: Joke) {
+        binding.jokeText.text = joke.value
+        binding.bookmarkButton.setImageResource(
             if (joke.bookmarked)
                 R.drawable.ic_bookmarked
             else
@@ -89,7 +92,7 @@ class RandomJokeFragment : Fragment() {
         )
     }
 
-    private fun showLoadingIndicator(view: FragmentJokeBinding) {
+    private fun showLoadingIndicator() {
 
     }
 }
