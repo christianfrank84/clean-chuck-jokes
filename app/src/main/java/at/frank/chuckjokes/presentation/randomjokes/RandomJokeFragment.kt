@@ -16,7 +16,7 @@ import at.frank.chuckjokes.presentation.viewmodel.JokeViewModelFactory
 import javax.inject.Inject
 
 class RandomJokeFragment : Fragment() {
-    @Inject
+
     lateinit var viewModel: RandomJokeViewModel
 
     private var displayedJoke: Joke? = null
