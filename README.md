@@ -9,5 +9,5 @@ The archtecture follows a "Clean architecture" approach using
  * Retrofit with RxJava2 and Gson Support
  * MockWebServer for Api call testing
 
-Architecture Design
+## Architecture
 ![alt text](chuckjokes_uml.png "Architecture Design")
