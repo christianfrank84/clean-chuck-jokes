@@ -2,8 +2,8 @@ package at.frank.chuckjokes.di
 
 import at.frank.chuckjokes.data.local.JokeDao
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi
-import at.frank.chuckjokes.domain.JokeRepository
-import at.frank.chuckjokes.domain.JokeRepositoryImpl
+import at.frank.chuckjokes.data.JokeRepository
+import at.frank.chuckjokes.data.JokeRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

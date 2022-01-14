@@ -2,6 +2,7 @@ package at.frank.chuckjokes.integrationtests
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import at.frank.chuckjokes.RxSchedulers
+import at.frank.chuckjokes.data.JokeRepositoryImpl
 import at.frank.chuckjokes.data.local.JokeDBE
 import at.frank.chuckjokes.data.local.JokeDao
 import at.frank.chuckjokes.data.remote.ChuckNorrisApi

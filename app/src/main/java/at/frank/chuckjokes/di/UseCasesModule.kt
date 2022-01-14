@@ -1,5 +1,6 @@
 package at.frank.chuckjokes.di
 
+import at.frank.chuckjokes.data.JokeRepository
 import at.frank.chuckjokes.domain.*
 import dagger.Module
 import dagger.Provides
