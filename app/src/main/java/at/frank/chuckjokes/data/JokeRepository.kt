@@ -15,8 +15,8 @@ interface JokeRepository {
     fun getRandomJoke(): Single<JokeDTO>
     fun getBookmarkedJokes(): Flowable<List<JokeDBE>>
     fun isJokeBookmarked(id: String): Boolean
-    fun bookmarkJoke(joke: Joke): Completable
-    fun removeBookmarkedJoke(joke: Joke): Completable
+    fun bookmarkJoke(entity: JokeDBE): Completable
+    fun removeBookmarkedJoke(entity: JokeDBE): Completable
 }
 
 @Singleton
@@ -27,6 +27,6 @@ class JokeRepositoryImpl @Inject constructor(
     override fun getRandomJoke(): Single<JokeDTO> = api.getRandomChuckNorrisJoke()
     override fun getBookmarkedJokes(): Flowable<List<JokeDBE>> = jokeDao.getBookmarkedJokes()
     override fun isJokeBookmarked(id: String): Boolean = jokeDao.isBookmarked(id)
-    override fun bookmarkJoke(joke: Joke) = jokeDao.bookmarkJoke(joke.mapToDBE())
-    override fun removeBookmarkedJoke(joke: Joke) = jokeDao.removeBookmarkedJoke(joke.mapToDBE())
+    override fun bookmarkJoke(entity: JokeDBE) = jokeDao.bookmarkJoke(entity)
+    override fun removeBookmarkedJoke(entity: JokeDBE) = jokeDao.removeBookmarkedJoke(entity)
 }

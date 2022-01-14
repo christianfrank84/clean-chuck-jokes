@@ -10,5 +10,5 @@ interface RemoveJokeFromBookmarksUseCase {
 
 class RemoveJokeFromBookmarks @Inject constructor(private val repo: JokeRepository) :
     RemoveJokeFromBookmarksUseCase {
-    override fun invoke(joke: Joke): Completable = repo.removeBookmarkedJoke(joke)
+    override fun invoke(joke: Joke): Completable = repo.removeBookmarkedJoke(joke.mapToDBE())
 }

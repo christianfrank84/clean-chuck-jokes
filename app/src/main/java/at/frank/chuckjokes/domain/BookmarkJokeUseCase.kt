@@ -9,5 +9,5 @@ interface BookmarkJokeUseCase {
 }
 
 class BookmarkJoke @Inject constructor(private val repo: JokeRepository) : BookmarkJokeUseCase {
-    override fun invoke(joke: Joke): Completable = repo.bookmarkJoke(joke)
+    override fun invoke(joke: Joke): Completable = repo.bookmarkJoke(joke.mapToDBE())
 }
