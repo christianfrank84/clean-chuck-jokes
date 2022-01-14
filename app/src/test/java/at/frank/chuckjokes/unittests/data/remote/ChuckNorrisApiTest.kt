@@ -29,22 +29,18 @@ class ChuckNorrisApiTest {
         val jokeJson = Gson().toJson(jokeWebEntity, JokeDTO::class.java)
 
         jokeServer.enqueue(MockResponse().setResponseCode(200).setBody(jokeJson))
-
         api.getRandomChuckNorrisJoke().test().assertComplete().assertValue(jokeWebEntity).dispose()
     }
 
     @Test
     fun `should return error if response is not a json`() {
-
         jokeServer.enqueue(MockResponse().setResponseCode(200).setBody(""))
-
         api.getRandomChuckNorrisJoke().test().assertNotComplete().dispose()
     }
 
     @Test
     fun `should return empty Joke if json is empty`() {
         jokeServer.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
-
         api.getRandomChuckNorrisJoke().test().assertValue(JokeDTO()).dispose()
     }
 
